@@ -15,7 +15,7 @@ public:
 
     Grid();
     void drawGrid();
-
+    void loadGridFromFile(const char* filename);
     CellPosition getCellPosition(int row, int col);
 
     void setCellValue(int row, int col, int value);

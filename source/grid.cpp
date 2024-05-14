@@ -1,14 +1,43 @@
 // creation sudoku grid in terminal
-
 #include <iostream>
 #include <vector>
 #include <string>
 #include "grid.hpp"
+#include <fstream>
 using namespace std;
 
 
 Grid::Grid() {
-    cells.resize(SIZE, vector<int>(SIZE, 0));
+    cells.resize(SIZE, vector<int>(SIZE, 1));
+    loadGridFromFile("sudoku_grid.txt");
+}
+
+void Grid::loadGridFromFile(const char* filename) { 
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Error: Unable to open file " << filename << std::endl;
+        return;
+    }
+
+    vector<vector<vector<int>>> allGrids;
+    vector<int> row(SIZE, 0);
+    vector<vector<int>> grid(SIZE, row);
+    int gridCount = 0;
+    while (file) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                file >> grid[i][j];
+            }
+        }
+        allGrids.push_back(grid);
+        gridCount++;
+    }
+    file.close();
+
+    srand(static_cast<unsigned int>(time(0)));
+
+    int randomIndex = rand() % gridCount;
+    cells = allGrids[randomIndex];
 }
 
 void Grid::drawGrid() {
