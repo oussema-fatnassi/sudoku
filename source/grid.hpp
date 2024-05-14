@@ -19,9 +19,13 @@ public:
     void removeRandomValues(int numValuesToRemove);
     CellPosition getCellPosition(int row, int col);
 
+    void loadGridFromFile(const char* filename);
+
     void setCellValue(int row, int col, int value);
 
     int getCellValue(int row, int col);
+
+    void chooseCellValue();
 };
 
 #endif  // GRID_H
