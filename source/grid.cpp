@@ -60,13 +60,35 @@ int Grid::getCellValue(int row, int col) {
 }
 
 void Grid::chooseCellValue() {
+    bool valid = false;
     int row, col, value;
-    cout << "Enter a row between 1 and 9 : ";
-    cin >> row;
-    cout << "Enter a column between 1 and 9 : ";
-    cin >> col;
-    cout << "Enter a value between 1 and 9 : ";
-    cin >> value;
+    while (!valid) {
+        cout << "Enter a row between 1 and 9 : ";
+        cin >> row;
+        if (row < 1 || row > 9) {
+            cout << "Invalid row. Please enter a row between 1 and 9." << endl;
+            continue;
+        }
+        else {
+            cout << "Enter a column between 1 and 9 : ";
+            cin >> col;
+            if (col < 1 || col > 9) {
+                cout << "Invalid column. Please enter a column between 1 and 9." << endl;
+                continue;
+            }
+            else {
+                cout << "Enter a value between 1 and 9 : ";
+                cin >> value;
+                if (value < 1 || value > 9) {
+                    cout << "Invalid value. Please enter a value between 1 and 9." << endl;
+                    continue;
+                }
+                else {
+                    valid = true;
+                }
+            }
+        }
+    }
     setCellValue(row -1, col -1, value);
     drawGrid();
 }
