@@ -94,19 +94,46 @@ int Grid::getCellValue(int row, int col) {
 
 void Grid::chooseCellValue() {
     int row, col, value;
-    cout << "Enter a row between 1 and 9 : ";
-    cin >> row;
-    cout << "Enter a column between 1 and 9 : ";
-    cin >> col;
-    cout << "Enter a value between 1 and 9 : ";
-    cin >> value;
-
-    if (unsolvedGrid[row - 1][col - 1] != 0 ) {
-        cout << "You can't change values of default grid, please try again" << endl;
-        chooseCellValue();
-    } else {
-        setCellValue(row - 1, col - 1, value);
-        drawGrid();
+    while (true) {
+        cout << "Enter a row between 1 and 9: ";
+        if (!(cin >> row)) {
+            cout << "Invalid input. Please enter a number between 1 and 9." << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
+        if (row < 1 || row > 9) {
+            cout << "Invalid row. Please enter a row between 1 and 9." << endl;
+            continue;
+        }
+        cout << "Enter a column between 1 and 9: ";
+        if (!(cin >> col)) {
+            cout << "Invalid input. Please enter a number between 1 and 9." << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
+        if (col < 1 || col > 9) {
+            cout << "Invalid column. Please enter a column between 1 and 9." << endl;
+            continue;
+        }
+        if (unsolvedGrid[row - 1][col - 1] != 0) {
+            cout << "You can't change values of default grid, please try again" << endl;
+            continue;
+        }
+        cout << "Enter a value between 1 and 9: ";
+        if (!(cin >> value)) {
+            cout << "Invalid input. Please enter a number between 1 and 9." << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
+        if (value < 1 || value > 9) {
+            cout << "Invalid value. Please enter a value between 1 and 9." << endl;
+            continue;
+        }
+        break;
     }
+    setCellValue(row - 1, col - 1, value);
+    drawGrid();
 }
-
