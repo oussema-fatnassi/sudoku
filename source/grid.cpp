@@ -58,3 +58,15 @@ void Grid::setCellValue(int row, int col, int value) {
 int Grid::getCellValue(int row, int col) {
     return cells[row][col];
 }
+
+void Grid::chooseCellValue() {
+    int row, col, value;
+    cout << "Enter a row between 1 and 9 : ";
+    cin >> row;
+    cout << "Enter a column between 1 and 9 : ";
+    cin >> col;
+    cout << "Enter a value between 1 and 9 : ";
+    cin >> value;
+    setCellValue(row -1, col -1, value);
+    drawGrid();
+}

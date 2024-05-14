@@ -23,6 +23,8 @@ public:
     void setCellValue(int row, int col, int value);
 
     int getCellValue(int row, int col);
+
+    void chooseCellValue();
 };
 
 #endif  // GRID_H
