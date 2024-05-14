@@ -16,6 +16,7 @@ public:
     Grid();
     void drawGrid();
     void loadGridFromFile(const char* filename);
+    void removeRandomValues(int numValuesToRemove);
     CellPosition getCellPosition(int row, int col);
 
     void setCellValue(int row, int col, int value);

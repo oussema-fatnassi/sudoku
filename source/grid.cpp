@@ -6,10 +6,10 @@
 #include <fstream>
 using namespace std;
 
-
 Grid::Grid() {
     cells.resize(SIZE, vector<int>(SIZE, 1));
     loadGridFromFile("sudoku_grid.txt");
+    removeRandomValues(40);
 }
 
 void Grid::loadGridFromFile(const char* filename) { 
@@ -38,6 +38,14 @@ void Grid::loadGridFromFile(const char* filename) {
 
     int randomIndex = rand() % gridCount;
     cells = allGrids[randomIndex];
+}
+
+void Grid::removeRandomValues(int numValuesToRemove) {
+    for (int i = 0; i < numValuesToRemove; i++) {
+        int row = rand() % SIZE;
+        int col = rand() % SIZE;
+        cells[row][col] = 0;
+    }
 }
 
 void Grid::drawGrid() {
