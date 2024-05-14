@@ -18,6 +18,8 @@ public:
 
     CellPosition getCellPosition(int row, int col);
 
+    void loadGridFromFile(const char* filename);
+
     void setCellValue(int row, int col, int value);
 
     int getCellValue(int row, int col);

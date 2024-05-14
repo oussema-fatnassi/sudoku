@@ -5,9 +5,9 @@ using namespace std;
 int main() {
     Grid sudokuGrid;
 
-    sudokuGrid.setCellValue(0, 0, 5);
-    sudokuGrid.setCellValue(0, 1, 3);
-    sudokuGrid.setCellValue(1, 0, 8);
+    sudokuGrid.setCellValue(0, 0, 2);
+    sudokuGrid.setCellValue(0, 1, 2);
+    sudokuGrid.setCellValue(1, 0, 2);
 
     sudokuGrid.drawGrid();
 

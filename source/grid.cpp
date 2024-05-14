@@ -3,12 +3,33 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
 #include "grid.hpp"
 using namespace std;
 
 
 Grid::Grid() {
-    cells.resize(SIZE, vector<int>(SIZE, 0));
+    cells.resize(SIZE, vector<int>(SIZE, 1));
+    loadGridFromFile("sudoku.txt");
+}
+
+void Grid::loadGridFromFile(const char* filename) {                                   // Load the grid from the specified file
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Error: Unable to open file " << filename << std::endl;
+        return;
+    }
+
+    int row = 0;
+    int col = 0;
+    while (file >> cells[row][col]) {
+        col++;
+        if (col >= SIZE) {
+            col = 0;
+            row++;
+        }
+    }
+    file.close();
 }
 
 void Grid::drawGrid() {
