@@ -65,6 +65,7 @@ CPack.yml
 settings.json
 tasks.json
 query.json
+launch.json
 
 # sudoku executable
 sudoku
