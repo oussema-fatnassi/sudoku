@@ -11,6 +11,8 @@ Grid::Grid() {
     cells.resize(SIZE, vector<int>(SIZE, 1));
     loadGridFromFile("sudoku_grid.txt");
     removeRandomValues(40);
+    copyUnsolvedGrid();
+    printUnsolvedGrid();
 }
 
 void Grid::loadGridFromFile(const char* filename) { 
@@ -39,6 +41,20 @@ void Grid::loadGridFromFile(const char* filename) {
 
     int randomIndex = rand() % gridCount;
     cells = allGrids[randomIndex];
+}
+
+
+void Grid::printUnsolvedGrid() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            cout << unsolvedGrid[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+void Grid::copyUnsolvedGrid() {
+    unsolvedGrid = cells;
 }
 
 void Grid::removeRandomValues(int numValuesToRemove) {
@@ -84,6 +100,13 @@ void Grid::chooseCellValue() {
     cin >> col;
     cout << "Enter a value between 1 and 9 : ";
     cin >> value;
-    setCellValue(row -1, col -1, value);
-    drawGrid();
+
+    if (unsolvedGrid[row - 1][col - 1] != 0 ) {
+        cout << "You can't change values of default grid, please try again" << endl;
+        chooseCellValue();
+    } else {
+        setCellValue(row - 1, col - 1, value);
+        drawGrid();
+    }
 }
+

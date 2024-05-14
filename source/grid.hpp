@@ -1,6 +1,7 @@
 #ifndef GRID_H
 #define GRID_H
 #include <vector>
+using namespace std;
 
 class Grid {
 public:
@@ -11,14 +12,16 @@ public:
 
     static const int SIZE = 9;
 
-    std::vector<std::vector<int> > cells;
+    vector<vector<int> > cells;
+    vector<vector<int> > unsolvedGrid;
 
     Grid();
     void drawGrid();
     void removeRandomValues(int numValuesToRemove);
     CellPosition getCellPosition(int row, int col);
-
     void loadGridFromFile(const char* filename);
+    void printUnsolvedGrid();
+    void copyUnsolvedGrid();
 
     void setCellValue(int row, int col, int value);
 
