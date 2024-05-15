@@ -69,3 +69,6 @@ launch.json
 
 # sudoku executable
 sudoku
+
+#Mac files
+*.DS_Store

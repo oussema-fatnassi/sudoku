@@ -9,10 +9,11 @@ using namespace std;
 
 Grid::Grid() {
     cells.resize(SIZE, vector<int>(SIZE, 1));
-    loadGridFromFile("sudoku_grid.txt");
+    // loadGridFromFile("sudoku_grid.txt");
     int originalRandomIndex;
-    removeRandomValues(1);
-    copyUnsolvedGrid();
+    gridDrawn = false;
+    // removeRandomValues(1);
+    // copyUnsolvedGrid();
 }
 
 void Grid::loadGridFromFile(const char* filename) { 
@@ -21,7 +22,7 @@ void Grid::loadGridFromFile(const char* filename) {
         std::cerr << "Error: Unable to open file " << filename << std::endl;
         return;
     }
-
+    allGrids.clear();
     vector<int> row(SIZE, 0);
     vector<vector<int>> grid(SIZE, row);
     int gridCount = 0;
@@ -92,6 +93,37 @@ int Grid::getCellValue(int row, int col) {
     return cells[row][col];
 }
 
+void Grid::chooseDifficulty(){
+    cout << "Choose difficulty level:" << endl;
+    cout << "1. Easy" << endl;
+    cout << "2. Medium" << endl;
+    cout << "3. Hard" << endl;
+    int choice;
+
+    if (!(cin >> choice)) {
+        cout << "Invalid input. Please enter a number between 1 and 3." << endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+        return;
+    }
+    switch (choice) {
+        case 1:
+            loadGridFromFile("../assets/easy.txt");
+            break;
+        case 2:
+            loadGridFromFile("../assets/medium.txt");
+            break;
+        case 3:
+            loadGridFromFile("../assets/hard.txt");
+            break;
+        default:
+            cout << "Invalid choice. Please enter a number between 1 and 3." << endl;
+            return;
+    }
+    gridDrawn = true;
+    drawGrid();
+}
+
 void Grid::chooseCellValue() {
     int row, col, value;
     while (true) {
@@ -140,13 +172,11 @@ void Grid::chooseCellValue() {
 
 void Grid::menu() {
     int choice;
-    bool gridDrawn = false;
     while (true) {
         if (!gridDrawn) {
             cout << "Welcome to Sudoku!" << endl;
-            cout << "1. Draw grid" << endl;
-            cout << "2. Choose cell value" << endl;
-            cout << "3. Exit" << endl;
+            cout << "1. Difficulty" << endl;
+            cout << "2. Exit" << endl;
         } else {
             cout << "1. Choose cell value" << endl;
             cout << "2. Check solution" << endl;
@@ -157,15 +187,15 @@ void Grid::menu() {
         switch (choice) {
             case 1:
                 if (!gridDrawn) {
-                    drawGrid();
-                    gridDrawn = true;
+                    chooseDifficulty();
                 } else {
                     chooseCellValue();
                 }
                 break;
             case 2:
                 if (!gridDrawn) {
-                    chooseCellValue();
+                    cout << "See you next time" << endl;
+                    exit(0);
                 }
                 else {
                     checkSolution();

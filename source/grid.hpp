@@ -4,6 +4,8 @@
 using namespace std;
 
 class Grid {
+private:
+    bool gridDrawn;
 public:
     struct CellPosition {
         int row;
@@ -32,6 +34,7 @@ public:
     int getCellValue(int row, int col);
     void chooseCellValue();
     void checkSolution();
+    void chooseDifficulty();
 };
 
 #endif  // GRID_H
