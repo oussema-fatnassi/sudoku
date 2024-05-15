@@ -17,6 +17,7 @@ int main()
 
     while (!WindowShouldClose())
     {
+        sudokuGrid.update();
         BeginDrawing();
         ClearBackground(darkGreen);
         sudokuGrid.drawGrid();

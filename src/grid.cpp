@@ -5,10 +5,10 @@
 
 using namespace std;
 
-Grid::Grid() {
+Grid::Grid() : selectedCell(nullptr){
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
-            cells[row][col] = Cell();
+            cells[row][col] = Cell(row, col);
         }
     }
 }
@@ -21,9 +21,8 @@ void Grid::drawGrid() {
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
             Cell& cell = getCell(row, col);
-            cell.isCellSelected();
-            
-            DrawRectangle(col * 60 + 50, row * 60 + 100, 60, 60, Color{255, 255, 255, 255});
+            Color cellColor = cell.isSelected ? Color{255, 0, 0, 255} : Color{255, 255, 255, 255};
+            DrawRectangle(col * 60 + 50, row * 60 + 100, 60, 60, cellColor);
 
             // Draw horizontal lines
             DrawLine(col * 60 + 50, row * 60 + 100, (col + 1) * 60 + 50, row * 60 + 100, Color{0, 0, 0, 255});
@@ -32,7 +31,6 @@ void Grid::drawGrid() {
             // Draw vertical lines
             DrawLine(col * 60 + 50, row * 60 + 100, col * 60 + 50, (row + 1) * 60 + 100, Color{0, 0, 0, 255});
             DrawLine((col + 1) * 60 + 50, row * 60 + 100, (col + 1) * 60 + 50, (row + 1) * 60 + 100, Color{0, 0, 0, 255});
-
         }
     }
     // Draw thicker lines for the 3x3 subgrid borders
@@ -42,4 +40,24 @@ void Grid::drawGrid() {
         // Vertical thick lines
         DrawRectangle(i * 180 + 48, 100, 2, 540, Color{0, 0, 0, 255});
     }
+}
+
+void Grid::update() {
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        int mouseX = GetMouseX();
+        int mouseY = GetMouseY();
+        if (mouseX > 50 && mouseX < 590 && mouseY > 100 && mouseY < 640) {
+            int row = (mouseY - 100) / 60;
+            int col = (mouseX - 50) / 60;
+            selectCell(row, col);
+        }
+    }
+}
+
+void Grid::selectCell(int row, int col) {
+    if (selectedCell != nullptr) {
+        selectedCell->isSelected = false;
+    }
+    selectedCell = &cells[row][col];
+    selectedCell->isSelected = true;
 }

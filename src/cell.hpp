@@ -3,11 +3,8 @@
 
 class Cell {
 public:
-    struct cellPosition
-    {
-        int row;
-        int col;
-    };
+    int row;
+    int col;
     
     int value;
     bool isHighlighted;
@@ -18,6 +15,7 @@ public:
     int selectedCol;
 
     Cell();
+    Cell(int row, int col);
     void setValue(int value);
     int getValue();
     void isCellSelected();
