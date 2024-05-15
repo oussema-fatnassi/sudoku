@@ -18,6 +18,7 @@ public:
     vector<vector<int> > unsolvedGrid;
     vector<vector<int> > solvedGrid;
     vector<vector<vector<int>>> allGrids;
+    vector<vector<vector<int>>> allSolutionGrids;
 
     int gridCount;
     int originalRandomIndex;
@@ -28,6 +29,8 @@ public:
     void removeRandomValues(int numValuesToRemove);
     CellPosition getCellPosition(int row, int col);
     void loadGridFromFile(const char* filename);
+    void loadGridSolutionFromFile(const char* filename);
+
     void printUnsolvedGrid();
     void copyUnsolvedGrid();
     void menu();

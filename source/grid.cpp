@@ -13,7 +13,7 @@ Grid::Grid() {
     int originalRandomIndex;
     gridDrawn = false;
     // removeRandomValues(1);
-    // copyUnsolvedGrid();
+    copyUnsolvedGrid();
 }
 
 void Grid::loadGridFromFile(const char* filename) { 
@@ -43,6 +43,7 @@ void Grid::loadGridFromFile(const char* filename) {
     cells = allGrids[randomIndex];
     cout << "Random index: " << randomIndex << endl;
     originalRandomIndex = randomIndex;
+    copyUnsolvedGrid();
 }
 
 
@@ -87,6 +88,10 @@ Grid::CellPosition Grid::getCellPosition(int row, int col) {
 }
 
 void Grid::setCellValue(int row, int col, int value) {
+    if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) {
+        cout << "Invalid row or column index." << endl;
+        return;
+    }
     cells[row][col] = value;
 }
 
@@ -223,7 +228,29 @@ void Grid::menu() {
     }
 }
 
-void Grid::checkSolution() {
+void Grid ::loadGridSolutionFromFile(const char* filename) {
+        std::ifstream file(filename);
+        if (!file.is_open()) {
+            std::cerr << "Error: Unable to open file " << filename << std::endl;
+            return;
+        }
+        allSolutionGrids.clear();
+        vector<int> row(SIZE, 0);
+        vector<vector<int>> grid(SIZE, row);
+        int gridCount = 0;
+        while (file) {
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
+                    file >> grid[i][j];
+                }
+            }
+            allSolutionGrids.push_back(grid);
+            gridCount++;
+        }
+        file.close();
+    }
+
+void Grid:: checkSolution() {
     string solutionFilename;
     switch (difficulty) {
         case 1:
@@ -236,9 +263,15 @@ void Grid::checkSolution() {
             solutionFilename = "../assets/hard_solution.txt";
             break;
     }
-    loadGridFromFile(solutionFilename.c_str()); 
+    loadGridSolutionFromFile(solutionFilename.c_str());
 
-    vector<vector<int>> solutionGrid = allGrids[originalRandomIndex]; 
+    vector<vector<int>> solutionGrid;
+    if (originalRandomIndex >= 0 && originalRandomIndex < allSolutionGrids.size()) {
+        solutionGrid = allSolutionGrids[originalRandomIndex];
+    } else {
+        cout << "Error: Unable to load solution grid." << endl;
+        return;
+    }
 
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
