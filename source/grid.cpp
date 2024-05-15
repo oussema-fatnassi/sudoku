@@ -13,7 +13,6 @@ Grid::Grid() {
     int originalRandomIndex;
     removeRandomValues(1);
     copyUnsolvedGrid();
-    // printUnsolvedGrid();
 }
 
 void Grid::loadGridFromFile(const char* filename) { 
