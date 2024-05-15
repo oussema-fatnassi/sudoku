@@ -70,6 +70,7 @@ void Grid::selectCell(int row, int col) {
     selectedCell->isSelected = true;
 
     highlightCells();
+    highlightSubgrid();
 }
 
 void Grid::highlightCells() {
@@ -85,6 +86,24 @@ void Grid::highlightCells() {
         for (int i = 0; i < 9; i++) {
             cells[selectedCell->row][i].isHighlighted = true;
             cells[i][selectedCell->col].isHighlighted = true;
+        }
+    }
+}
+
+void Grid::highlightSubgrid() {
+    // Reset subgrid highlights
+    for (int row = 0; row < 9; row += 3) {
+        for (int col = 0; col < 9; col += 3) {
+            bool inSubgrid = (selectedCell->row >= row && selectedCell->row < row + 3 &&
+                              selectedCell->col >= col && selectedCell->col < col + 3);
+            if (inSubgrid) {
+                for (int i = row; i < row + 3; i++) {
+                    for (int j = col; j < col + 3; j++) {
+                        cells[i][j].isHighlighted = true;
+                    }
+                }
+                return; // Subgrid found, no need to check others
+            }
         }
     }
 }

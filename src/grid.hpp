@@ -15,5 +15,6 @@ class Grid {
         void update();
         void selectCell(int row, int col);
         void highlightCells();
+        void highlightSubgrid();
 };
 #endif  // GRID_H
