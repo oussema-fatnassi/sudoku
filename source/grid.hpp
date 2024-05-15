@@ -22,11 +22,9 @@ public:
     void loadGridFromFile(const char* filename);
     void printUnsolvedGrid();
     void copyUnsolvedGrid();
-
+    void menu();
     void setCellValue(int row, int col, int value);
-
     int getCellValue(int row, int col);
-
     void chooseCellValue();
 };
 

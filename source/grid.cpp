@@ -12,7 +12,7 @@ Grid::Grid() {
     loadGridFromFile("sudoku_grid.txt");
     removeRandomValues(40);
     copyUnsolvedGrid();
-    printUnsolvedGrid();
+    // printUnsolvedGrid();
 }
 
 void Grid::loadGridFromFile(const char* filename) { 
@@ -136,4 +136,28 @@ void Grid::chooseCellValue() {
     }
     setCellValue(row - 1, col - 1, value);
     drawGrid();
+}
+
+void Grid::menu() {
+    int choice;
+    while (true) {
+        cout << "Welcome to Sudoku!" << endl;
+        cout << "1. Draw grid" << endl;
+        cout << "2. Choose cell value" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                drawGrid();
+                break;
+            case 2:
+                chooseCellValue();
+                break;
+            case 3:
+                exit(0);
+            default:
+                cout << "Invalid choice. Please enter a number between 1 and 3." << endl;
+        }
+    }
 }
