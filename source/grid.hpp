@@ -21,6 +21,7 @@ public:
 
     int gridCount;
     int originalRandomIndex;
+    int difficulty;
 
     Grid();
     void drawGrid();

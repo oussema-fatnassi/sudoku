@@ -41,6 +41,7 @@ void Grid::loadGridFromFile(const char* filename) {
 
     int randomIndex = rand() % gridCount;
     cells = allGrids[randomIndex];
+    cout << "Random index: " << randomIndex << endl;
     originalRandomIndex = randomIndex;
 }
 
@@ -100,21 +101,33 @@ void Grid::chooseDifficulty(){
     cout << "3. Hard" << endl;
     int choice;
 
-    if (!(cin >> choice)) {
-        cout << "Invalid input. Please enter a number between 1 and 3." << endl;
-        cin.clear();
-        cin.ignore(10000, '\n');
-        return;
+    while(true){
+        cout << "Enter your choice: ";
+        if (!(cin >> choice)) {
+            cout << "Invalid input. Please enter a number between 1 and 3." << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
+        if (choice < 1 || choice > 3) {
+            cout << "Invalid choice. Please enter a number between 1 and 3." << endl;
+            continue;
+        }
+        break;
     }
+
     switch (choice) {
         case 1:
             loadGridFromFile("../assets/easy.txt");
+            difficulty = 1;
             break;
         case 2:
             loadGridFromFile("../assets/medium.txt");
+            difficulty = 2;
             break;
         case 3:
             loadGridFromFile("../assets/hard.txt");
+            difficulty = 3;
             break;
         default:
             cout << "Invalid choice. Please enter a number between 1 and 3." << endl;
@@ -211,6 +224,20 @@ void Grid::menu() {
 }
 
 void Grid::checkSolution() {
+    string solutionFilename;
+    switch (difficulty) {
+        case 1:
+            solutionFilename = "../assets/easy_solution.txt";
+            break;
+        case 2:
+            solutionFilename = "../assets/medium_solution.txt";
+            break;
+        case 3:
+            solutionFilename = "../assets/hard_solution.txt";
+            break;
+    }
+    loadGridFromFile(solutionFilename.c_str()); 
+
     vector<vector<int>> solutionGrid = allGrids[originalRandomIndex]; 
 
     for (int i = 0; i < SIZE; i++) {
