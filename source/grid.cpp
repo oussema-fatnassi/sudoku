@@ -140,21 +140,39 @@ void Grid::chooseCellValue() {
 
 void Grid::menu() {
     int choice;
+    bool gridDrawn = false;
     while (true) {
-        cout << "Welcome to Sudoku!" << endl;
-        cout << "1. Draw grid" << endl;
-        cout << "2. Choose cell value" << endl;
-        cout << "3. Exit" << endl;
+        if (!gridDrawn) {
+            cout << "Welcome to Sudoku!" << endl;
+            cout << "1. Draw grid" << endl;
+            cout << "2. Choose cell value" << endl;
+            cout << "3. Exit" << endl;
+        } else {
+            cout << "1. Choose cell value" << endl;
+            cout << "2. Exit" << endl;
+        }
         cout << "Enter your choice: ";
         cin >> choice;
         switch (choice) {
             case 1:
-                drawGrid();
+                if (!gridDrawn) {
+                    drawGrid();
+                    gridDrawn = true;
+                } else {
+                    chooseCellValue();
+                }
                 break;
             case 2:
-                chooseCellValue();
+                if (!gridDrawn) {
+                    chooseCellValue();
+                }
+                else {
+                    cout << "See you next time" << endl;
+                    exit(0);
+                }
                 break;
             case 3:
+                cout << "See you next time" << endl;
                 exit(0);
             default:
                 cout << "Invalid choice. Please enter a number between 1 and 3." << endl;
