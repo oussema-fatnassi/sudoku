@@ -10,7 +10,8 @@ using namespace std;
 Grid::Grid() {
     cells.resize(SIZE, vector<int>(SIZE, 1));
     loadGridFromFile("sudoku_grid.txt");
-    removeRandomValues(40);
+    int originalRandomIndex;
+    removeRandomValues(1);
     copyUnsolvedGrid();
     // printUnsolvedGrid();
 }
@@ -22,7 +23,6 @@ void Grid::loadGridFromFile(const char* filename) {
         return;
     }
 
-    vector<vector<vector<int>>> allGrids;
     vector<int> row(SIZE, 0);
     vector<vector<int>> grid(SIZE, row);
     int gridCount = 0;
@@ -41,6 +41,7 @@ void Grid::loadGridFromFile(const char* filename) {
 
     int randomIndex = rand() % gridCount;
     cells = allGrids[randomIndex];
+    originalRandomIndex = randomIndex;
 }
 
 
@@ -149,7 +150,8 @@ void Grid::menu() {
             cout << "3. Exit" << endl;
         } else {
             cout << "1. Choose cell value" << endl;
-            cout << "2. Exit" << endl;
+            cout << "2. Check solution" << endl;
+            cout << "3. Exit" << endl;
         }
         cout << "Enter your choice: ";
         cin >> choice;
@@ -167,8 +169,7 @@ void Grid::menu() {
                     chooseCellValue();
                 }
                 else {
-                    cout << "See you next time" << endl;
-                    exit(0);
+                    checkSolution();
                 }
                 break;
             case 3:
@@ -178,4 +179,18 @@ void Grid::menu() {
                 cout << "Invalid choice. Please enter a number between 1 and 3." << endl;
         }
     }
+}
+
+void Grid::checkSolution() {
+    vector<vector<int>> solutionGrid = allGrids[originalRandomIndex]; 
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (this->cells[i][j] != solutionGrid[i][j]) {
+                cout << "Incorrect solution" << endl;
+                return;
+            }
+        }
+    }
+    cout << "Congratulations! You solved the puzzle" << endl;
 }

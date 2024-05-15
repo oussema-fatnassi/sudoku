@@ -14,6 +14,11 @@ public:
 
     vector<vector<int> > cells;
     vector<vector<int> > unsolvedGrid;
+    vector<vector<int> > solvedGrid;
+    vector<vector<vector<int>>> allGrids;
+
+    int gridCount;
+    int originalRandomIndex;
 
     Grid();
     void drawGrid();
@@ -26,6 +31,7 @@ public:
     void setCellValue(int row, int col, int value);
     int getCellValue(int row, int col);
     void chooseCellValue();
+    void checkSolution();
 };
 
 #endif  // GRID_H
