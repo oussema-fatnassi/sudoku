@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Grid::Grid() : selectedCell(nullptr){
+Grid::Grid() : selectedCell(nullptr) {
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
             cells[row][col] = Cell(row, col);
@@ -21,7 +21,15 @@ void Grid::drawGrid() {
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
             Cell& cell = getCell(row, col);
-            Color cellColor = cell.isSelected ? Color{255, 0, 0, 255} : Color{255, 255, 255, 255};
+
+            Color cellColor = Color{255, 255, 255, 255}; // Default white color
+
+            if (cell.isSelected) {
+                cellColor = Color{0, 173, 181, 255}; // Red for selected cell
+            } else if (cell.isHighlighted) {
+                cellColor = Color{205, 232, 229, 255}; // Yellow for highlighted cells
+            }
+
             DrawRectangle(col * 60 + 50, row * 60 + 100, 60, 60, cellColor);
 
             // Draw horizontal lines
@@ -60,4 +68,23 @@ void Grid::selectCell(int row, int col) {
     }
     selectedCell = &cells[row][col];
     selectedCell->isSelected = true;
+
+    highlightCells();
+}
+
+void Grid::highlightCells() {
+    // Reset all cell highlights
+    for (int row = 0; row < 9; row++) {
+        for (int col = 0; col < 9; col++) {
+            cells[row][col].isHighlighted = false;
+        }
+    }
+
+    if (selectedCell != nullptr) {
+        // Highlight the row and column of the selected cell
+        for (int i = 0; i < 9; i++) {
+            cells[selectedCell->row][i].isHighlighted = true;
+            cells[i][selectedCell->col].isHighlighted = true;
+        }
+    }
 }

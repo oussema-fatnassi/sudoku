@@ -14,6 +14,6 @@ class Grid {
         void drawGrid();
         void update();
         void selectCell(int row, int col);
-
+        void highlightCells();
 };
 #endif  // GRID_H
