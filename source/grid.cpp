@@ -44,7 +44,6 @@ void Grid::loadGridFromFile(const char* filename) {
     originalRandomIndex = randomIndex;
 }
 
-
 void Grid::printUnsolvedGrid() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
@@ -146,7 +145,8 @@ void Grid::menu() {
         if (!gridDrawn) {
             cout << "Welcome to Sudoku!" << endl;
             cout << "1. Draw grid" << endl;
-            cout << "2. Choose cell value" << endl;
+            // cout << "2. Choose cell value" << endl;
+            // cout << "2. Choose a difficulty level" << endl;
             cout << "3. Exit" << endl;
         } else {
             cout << "1. Choose cell value" << endl;
@@ -164,14 +164,14 @@ void Grid::menu() {
                     chooseCellValue();
                 }
                 break;
-            case 2:
-                if (!gridDrawn) {
-                    chooseCellValue();
-                }
-                else {
-                    checkSolution();
-                }
-                break;
+            // case 2:
+            //     if (!gridDrawn) {
+            //         chooseCellValue();
+            //     }
+            //     else {
+            //         checkSolution();
+            //     }
+            //     break;
             case 3:
                 cout << "See you next time" << endl;
                 exit(0);
