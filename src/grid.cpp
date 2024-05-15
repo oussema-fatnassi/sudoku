@@ -1,4 +1,5 @@
 #include "grid.hpp"
+#include "cell.hpp"
 #include <raylib.h>
 #include <sstream>
 
@@ -19,6 +20,9 @@ Cell& Grid::getCell(int row, int col) {
 void Grid::drawGrid() {
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
+            Cell& cell = getCell(row, col);
+            cell.isCellSelected();
+            
             DrawRectangle(col * 60 + 50, row * 60 + 100, 60, 60, Color{255, 255, 255, 255});
 
             // Draw horizontal lines

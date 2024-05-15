@@ -11,12 +11,16 @@ public:
     
     int value;
     bool isHighlighted;
+    bool isSelected;
     bool isCorrect;
     bool isEditable;
+    int selectedRow;
+    int selectedCol;
 
     Cell();
     void setValue(int value);
     int getValue();
+    void isCellSelected();
 };
 
 #endif  // CELL_H
