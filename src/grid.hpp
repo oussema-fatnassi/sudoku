@@ -13,10 +13,17 @@ class Grid {
 
         static const int SIZE = 9;
         vector<vector<vector<int>>> allGrids;
+        vector<vector<vector<int>>> allSolutions;
+        vector<vector<int>> solution;
+        const char* filename;
+        const char* solutionFilename;
+        bool gridChecked = false;
 
         Cell& getCell(int row, int col);
         void drawNumber(int row, int col);
-        void loadGridFromFile(const char* filename);
+        void loadGridFromFile(const char* difficulty);
+        void checkGrid();
+        bool checkWinCondition();
         void drawGrid();
         void update();
         void selectCell(int row, int col);

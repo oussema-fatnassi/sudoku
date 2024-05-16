@@ -47,10 +47,11 @@ void GUI::draw() {
     } else {
         DrawText("00:00", 10, 20, 20, BLACK);
     }
+    checkButton.checkGridFunction();
 }
 
 void GUI::fillGrid(){
-    sudokuGrid.loadGridFromFile("assets/easy.txt");
+    sudokuGrid.loadGridFromFile("easy");
 }
 
 float GUI::getElapsedTime() {

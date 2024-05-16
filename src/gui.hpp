@@ -6,6 +6,8 @@
 
 class GUI {
     private:
+    
+    public:
         Grid sudokuGrid;
         Button numberButtons[9];
         Button eraseButton;

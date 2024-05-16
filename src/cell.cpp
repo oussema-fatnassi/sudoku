@@ -3,9 +3,9 @@
 #include <iostream>
 #include <vector>
 
-Cell::Cell() : row(-1), col(-1), value(0), isHighlighted(false), isSelected(false), isCorrect(false), isEditable(false) {}
+Cell::Cell() : row(-1), col(-1), value(0), isHighlighted(false), isSelected(false), isCorrect(0), isEditable(false) {}
 
-Cell::Cell(int row, int col) : row(row), col(col), value(0), isHighlighted(false), isSelected(false), isCorrect(false), isEditable(false) {}
+Cell::Cell(int row, int col) : row(row), col(col), value(0), isHighlighted(false), isSelected(false), isCorrect(0), isEditable(false) {}
 
 void Cell::setValue(int value) {
     if(isEditable){

@@ -2,6 +2,7 @@
 #define BUTTONS_H
 #include "raylib.h"
 #include "grid.hpp"
+#include <string>
 
 class Button {
     private:
@@ -20,5 +21,6 @@ class Button {
         void buttonHover();
         void changeCellValue();
         void eraseCellValue();
+        void checkGridFunction();
 };
 #endif  // BUTTONS_H
