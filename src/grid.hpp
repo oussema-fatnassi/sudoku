@@ -16,5 +16,8 @@ class Grid {
         void selectCell(int row, int col);
         void highlightCells();
         void highlightSubgrid();
+        void setCellValue(int value);
+        void drawNumbersAdded();
+        Cell* getSelectedCell() { return selectedCell; }
 };
 #endif  // GRID_H

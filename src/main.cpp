@@ -21,6 +21,7 @@ int main()
     {
         // sudokuGrid.update();
         BeginDrawing();
+        sudokuGUI.update();
         sudokuGUI.draw();
         ClearBackground(darkGreen);
         // sudokuGrid.drawGrid();

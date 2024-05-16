@@ -48,6 +48,25 @@ void Grid::drawGrid() {
         // Vertical thick lines
         DrawRectangle(i * 180 + 48, 100, 2, 540, Color{0, 0, 0, 255});
     }
+    drawNumbersAdded();
+   
+}
+
+void Grid::drawNumbersAdded(){
+     for (int row = 0; row < 9; row++) {
+        for (int col = 0; col < 9; col++) {
+            Cell& cell = getCell(row, col);
+
+            if (cell.getValue() != 0) {
+                // Draw the value at the center of the cell
+                int textWidth = MeasureText(std::to_string(cell.getValue()).c_str(), 20);
+                int textHeight = 20;
+                int textSizeX = (60 - textWidth) / 2;
+                int textSizeY = (60 - textHeight) / 2;
+                DrawText(std::to_string(cell.getValue()).c_str(), col * 60 + 50 + textSizeX, row * 60 + 100 + textSizeY, 20, BLACK);
+            }
+        }
+    }
 }
 
 void Grid::update() {
@@ -107,3 +126,9 @@ void Grid::highlightSubgrid() {
         }
     }
 }
+
+void Grid::setCellValue(int value) {
+        if (selectedCell != nullptr ) {
+            selectedCell->setValue(value);
+        }
+    }

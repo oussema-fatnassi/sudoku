@@ -18,7 +18,6 @@ public:
     Cell(int row, int col);
     void setValue(int value);
     int getValue();
-    void isCellSelected();
 };
 
 #endif  // CELL_H

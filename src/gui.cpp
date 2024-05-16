@@ -7,8 +7,12 @@ GUI::GUI() {
     sudokuGrid = Grid();
 }
 
+void GUI::update() {
+    sudokuGrid.update();
+}
+
 void GUI::draw() {
     sudokuGrid.update();
     sudokuGrid.drawGrid();
-    Button::drawNumbers();
+    Button::drawNumbers(&sudokuGrid);
 }
