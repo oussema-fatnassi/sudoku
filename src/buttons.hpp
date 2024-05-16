@@ -1,6 +1,7 @@
 #ifndef BUTTONS_H
 #define BUTTONS_H
 #include "raylib.h"
+#include "grid.hpp"
 
 class Button {
     private:
@@ -9,12 +10,15 @@ class Button {
         float width;
         float height;
         Color color;
-        const char* text;
+        string text;
+        Grid* grid;
     public:
-        Button(float x, float y, float width, float height, Color color, const char* text);
+        int number ;
+        Button()=default;
+        Button(float x, float y, float width, float height, Color color, const char* text, Grid* grid=nullptr);
         void draw();
-        bool isMouseOver();
-        static void drawNumbers();
+        void buttonHover();
+        void changeCellValue();
+        void eraseCellValue();
 };
-
 #endif  // BUTTONS_H

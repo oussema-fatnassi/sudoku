@@ -1,38 +1,52 @@
 #include "buttons.hpp"
 #include <raylib.h>
 #include <cstdio>
+#include "grid.hpp"
+#include <cstdlib>
+#include <iostream>
 
-Button::Button(float x, float y, float width, float height, Color color, const char* text) {
+Button::Button(float x, float y, float width, float height, Color color, const char* text, Grid* grid) {
     this->x = x;
     this->y = y;
     this->width = width;
     this->height = height;
     this->color = color;
     this->text = text;
+    this->grid = grid;
 }
 
 void Button::draw() {
+    buttonHover();
     DrawRectangle(x, y, width, height, color);
-    int textWidth = MeasureText(text, 20);
+    const char* buttonText = text.c_str(); // Convert std::string to const char*
+    int textWidth = MeasureText(buttonText, 20);
     int textHeight = 20;
     int textSizeX = (width - textWidth) / 2;
     int textSizeY = (height - textHeight) / 2;
-    DrawText(text, x + textSizeX, y + textSizeY, 20, WHITE);
+    DrawText(buttonText, x + textSizeX, y + textSizeY, 20, BLACK);
 }
 
-bool Button::isMouseOver() {
-    return CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height});
+void Button::buttonHover() {
+    if (CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
+        color = {205, 232, 229, 255}; // Change the background color
+    } else {
+        color = WHITE; // Reset the background color
+    }
 }
 
-void Button::drawNumbers() {
-    int number = 1;
-    char buffer[10]; 
-    for (int i = 0; i < 9; i++) {
-        int x = 38 + i * (55 + 8); 
-        int y = 700; 
-        snprintf(buffer, sizeof(buffer), "%d", number);
-        Button numberButton(x, y, 55, 55, LIGHTGRAY, buffer);
-        numberButton.draw();
-        number++;
+void Button::changeCellValue() {
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
+        if (grid->getSelectedCell() != nullptr && grid->getSelectedCell()->isEditable==true) {
+            grid->setCellValue(number);
+        }
+        std::cout << "Button number: " << number << std::endl;
+    }
+}
+
+void Button::eraseCellValue(){
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
+        if (grid->getSelectedCell() != nullptr && grid->getSelectedCell()->isEditable==true) {
+            grid->setCellValue(0);
+        }
     }
 }
