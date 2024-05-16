@@ -16,6 +16,8 @@ void GUI::draw() {
     sudokuGrid.update();
     sudokuGrid.drawGrid();
     Button::drawNumbers(&sudokuGrid);
+    Button::drawEraseButton(&sudokuGrid);
+    Button::drawCheckButton(&sudokuGrid);
 }
 
 void GUI::fillGrid(){

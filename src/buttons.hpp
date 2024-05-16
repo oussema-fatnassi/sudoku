@@ -18,8 +18,11 @@ class Button {
         void draw();
         void buttonHover();
         static void drawNumbers( Grid* grid=nullptr);
-        void buttonClicked();
+        void changeCellValue();
         void update();
+        static void drawEraseButton(Grid* grid);
+        static void drawCheckButton(Grid* grid);
+
 };
 
 #endif  // BUTTONS_H

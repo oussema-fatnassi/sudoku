@@ -34,11 +34,10 @@ void Button::buttonHover() {
     }
 }
 
-void Button::buttonClicked() {
+void Button::changeCellValue() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
         if (grid->getSelectedCell() != nullptr && grid->getSelectedCell()->isEditable==true) {
             grid->setCellValue(number);
-            // grid->drawNewCellValue(); // Call this method to draw the new value
         }
         std::cout << "Button number: " << number << std::endl;
     }
@@ -53,7 +52,21 @@ void Button::drawNumbers(Grid* grid) {
         snprintf(buffer, sizeof(buffer), "%d", number);
         Button numberButton(x, y, 55, 55, WHITE, buffer, grid);
         numberButton.draw();
-        numberButton.buttonClicked();
+        numberButton.changeCellValue();
         number++;
     }
+}
+
+void Button::drawEraseButton(Grid* grid) {
+    int x = 90;
+    int y = 820;
+    Button eraseButton(x, y, 140, 80, WHITE, "Erase", grid);
+    eraseButton.draw();
+}
+
+void Button::drawCheckButton(Grid* grid) {
+    int x = 400;
+    int y = 820;
+    Button eraseButton(x, y, 140, 80, WHITE, "Check", grid);
+    eraseButton.draw();
 }
