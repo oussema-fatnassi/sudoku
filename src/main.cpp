@@ -2,6 +2,7 @@
 #include <iostream>
 #include "grid.hpp"
 #include "cell.hpp"
+#include "gui.hpp"
 
 int main()
 {
@@ -13,14 +14,16 @@ int main()
     InitWindow(screenWidth, screenHeight, "Sudoku");
     SetTargetFPS(60);
 
-    Grid sudokuGrid = Grid();
+    // Grid sudokuGrid = Grid();
+    GUI sudokuGUI = GUI();
 
     while (!WindowShouldClose())
     {
-        sudokuGrid.update();
+        // sudokuGrid.update();
         BeginDrawing();
+        sudokuGUI.draw();
         ClearBackground(darkGreen);
-        sudokuGrid.drawGrid();
+        // sudokuGrid.drawGrid();
         EndDrawing();
     }
 

@@ -7,7 +7,6 @@
 class GUI {
     private:
         Grid sudokuGrid;
-        Button newGameButton;
     public:
         GUI();
         void draw();
