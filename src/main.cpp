@@ -14,7 +14,7 @@ int main()
     SetTargetFPS(60);
 
     Grid sudokuGrid = Grid();
-
+    sudokuGrid.loadGridFromFile("assets/easy.txt");
     while (!WindowShouldClose())
     {
         sudokuGrid.update();
@@ -22,8 +22,14 @@ int main()
         ClearBackground(darkGreen);
         sudokuGrid.drawGrid();
         EndDrawing();
+        (sudokuGrid.getCell(0, 0)).setValue(1);
     }
-
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            cout << (sudokuGrid.getCell(i, j)).getValue() << " ";
+        }
+        cout << endl;
+    }
     CloseWindow();
     return 0;
 }
