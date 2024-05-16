@@ -103,6 +103,25 @@ void Grid::loadGridFromFile(const char* difficulty) {
     }
 }
 
+void Grid::checkGrid(){
+    if (gridChecked == true)  {
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                if (cells[row][col].isEditable && cells[row][col].value != 0) {
+                    cout << "Row: " << row << " Col: " << col << " Value: " << cells[row][col].value << endl;
+                    if (cells[row][col].value != solution[row][col]) {
+                        cells[row][col].isCorrect = 1;
+                    } else {
+                        cells[row][col].isCorrect = 2;
+                    }
+                }
+            }
+        }
+        gridChecked = false;
+        cout << "Grid checked" << endl;
+    }
+}
+
 bool Grid::checkWinCondition() {
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
@@ -122,7 +141,13 @@ void Grid::drawNumber(int row, int col) {
         if (cell.isEditable == false) {
             DrawText(valueText.c_str(), col * 60 + 75, row * 60 + 125, 20, BLACK);
         } else {
-            DrawText(valueText.c_str(), col * 60 + 75, row * 60 + 125, 20, BLUE);
+            if (cell.isCorrect == 2) {
+                DrawText(valueText.c_str(), col * 60 + 75, row * 60 + 125, 20, BLUE);
+            } else if (cell.isCorrect == 1) {
+                DrawText(valueText.c_str(), col * 60 + 75, row * 60 + 125, 20, RED);
+            } else {
+                DrawText(valueText.c_str(), col * 60 + 75, row * 60 + 125, 20, BLUE);
+            }
         }
     }
 }
@@ -225,5 +250,6 @@ void Grid::setCellValue(int value) {
     if (selectedCell != nullptr ) {
         selectedCell->setValue(value);
         selectedCell-> value = value;
+        selectedCell->isCorrect = 0;
     }
 }
