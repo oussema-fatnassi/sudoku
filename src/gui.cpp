@@ -7,9 +7,9 @@
 
 using namespace std;
 
-
 GUI::GUI() {
     sudokuGrid = Grid();
+    timerStarted = false;
 
     for (int i = 0; i < 9; i++) {
         int x = 38 + i * (55 + 8);
@@ -24,6 +24,7 @@ GUI::GUI() {
 
 void GUI::update() {
     sudokuGrid.update();
+    timer();
 }
 
 void GUI::draw() {
@@ -36,8 +37,39 @@ void GUI::draw() {
     eraseButton.draw();
     eraseButton.eraseCellValue();
     checkButton.draw();
+
+    int minutes = static_cast<int>((GetTime() - startTimer) / 60);
+    int seconds = static_cast<int>(fmod((GetTime() - startTimer), 60.0f));
+    if (timerStarted) { // Only draw the timer text if the timer has started
+        char timerText[10];
+        snprintf(timerText, sizeof(timerText), "%02d:%02d", minutes, seconds);
+        DrawText(timerText, 10, 20, 20, BLACK);
+    } else {
+        DrawText("00:00", 10, 20, 20, BLACK);
+    }
 }
 
 void GUI::fillGrid(){
     sudokuGrid.loadGridFromFile("assets/easy.txt");
+}
+
+float GUI::getElapsedTime() {
+    return GetTime() - startTimer;
+}
+
+void GUI::timer(){
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        int mouseX = GetMouseX();
+        int mouseY = GetMouseY();
+        if (mouseX > 50 && mouseX < 590 && mouseY > 100 && mouseY < 640) {
+            if (!timerStarted) {
+                startTimer = GetTime(); // Start the timer when the mouse button is clicked in the grid area for the first time
+                timerStarted = true;
+            }
+            // Select the cell based on the mouse position
+            int row = (mouseY - 100) / 60;
+            int col = (mouseX - 50) / 60;
+            sudokuGrid.selectCell(row, col);
+        }
+    }
 }
