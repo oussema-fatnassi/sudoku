@@ -9,7 +9,7 @@ public:
     int value;
     bool isHighlighted;
     bool isSelected;
-    bool isCorrect;
+    int isCorrect;
     bool isEditable;
     int selectedRow;
     int selectedCol;
