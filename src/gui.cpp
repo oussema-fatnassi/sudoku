@@ -12,6 +12,7 @@ void GUI::update() {
 }
 
 void GUI::draw() {
+    sudokuGrid.loadGridFromFile("assets/easy.txt");
     sudokuGrid.update();
     sudokuGrid.drawGrid();
     Button::drawNumbers(&sudokuGrid);
