@@ -4,6 +4,7 @@
 #include "grid.hpp"
 #include <cstdlib>
 #include <iostream>
+#include <string>
 
 Button::Button(float x, float y, float width, float height, Color color, const char* text, Grid* grid) {
     this->x = x;
@@ -48,5 +49,13 @@ void Button::eraseCellValue(){
         if (grid->getSelectedCell() != nullptr && grid->getSelectedCell()->isEditable==true) {
             grid->setCellValue(0);
         }
+    }
+}
+
+void Button::checkGridFunction(){
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
+        grid->gridChecked = true;
+        grid->checkGrid();
+        cout << "Checking grid..." << endl;
     }
 }
