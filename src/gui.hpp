@@ -6,8 +6,9 @@
 
 class GUI {
     private:
-        Grid sudokuGrid;
+    
     public:
+        Grid sudokuGrid;
         GUI();
         void draw();
         void update();
