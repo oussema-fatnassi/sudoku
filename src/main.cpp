@@ -23,7 +23,8 @@ int main()
     SetTargetFPS(60);
 
     GUI sudokuGUI = GUI();
-    sudokuGUI.fillGrid();    Menu menu = Menu();
+    sudokuGUI.fillGrid();    
+    Menu menu = Menu();
     GameState currentState = MAIN_MENU;
 
     while (!WindowShouldClose())
