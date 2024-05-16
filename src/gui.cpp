@@ -36,6 +36,7 @@ void GUI::draw() {
     eraseButton.draw();
     eraseButton.eraseCellValue();
     checkButton.draw();
+    checkButton.checkGridFunction();
 }
 
 void GUI::fillGrid(){
