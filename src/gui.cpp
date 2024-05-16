@@ -19,5 +19,5 @@ void GUI::draw() {
 }
 
 void GUI::fillGrid(){
-    sudokuGrid.loadGridFromFile("assets/easy.txt");
+    sudokuGrid.loadGridFromFile("easy");
 }
