@@ -13,8 +13,9 @@ class Button {
     public:
         Button(float x, float y, float width, float height, Color color, const char* text);
         void draw();
-        bool isMouseOver();
+        void buttonHover();
         static void drawNumbers();
+        void update();
 };
 
 #endif  // BUTTONS_H

@@ -12,16 +12,21 @@ Button::Button(float x, float y, float width, float height, Color color, const c
 }
 
 void Button::draw() {
+    buttonHover();
     DrawRectangle(x, y, width, height, color);
     int textWidth = MeasureText(text, 20);
     int textHeight = 20;
     int textSizeX = (width - textWidth) / 2;
     int textSizeY = (height - textHeight) / 2;
-    DrawText(text, x + textSizeX, y + textSizeY, 20, WHITE);
+    DrawText(text, x + textSizeX, y + textSizeY, 20, BLACK);
 }
 
-bool Button::isMouseOver() {
-    return CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height});
+void Button::buttonHover() {
+    if (CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
+        color = {205, 232, 229, 255}; // Change the background color
+    } else {
+        color = WHITE; // Reset the background color
+    }
 }
 
 void Button::drawNumbers() {
@@ -31,7 +36,7 @@ void Button::drawNumbers() {
         int x = 38 + i * (55 + 8); 
         int y = 700; 
         snprintf(buffer, sizeof(buffer), "%d", number);
-        Button numberButton(x, y, 55, 55, LIGHTGRAY, buffer);
+        Button numberButton(x, y, 55, 55, WHITE, buffer);
         numberButton.draw();
         number++;
     }
