@@ -36,9 +36,9 @@ void Button::buttonHover() {
 
 void Button::buttonClicked() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
-        if (grid->getSelectedCell() != nullptr) {
+        if (grid->getSelectedCell() != nullptr && grid->getSelectedCell()->isEditable==true) {
             grid->setCellValue(number);
-            grid->drawNewCellValue(); // Call this method to draw the new value
+            // grid->drawNewCellValue(); // Call this method to draw the new value
         }
         std::cout << "Button number: " << number << std::endl;
     }

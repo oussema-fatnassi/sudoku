@@ -20,7 +20,7 @@ Cell& Grid::getCell(int row, int col) {
     return cells[row][col];
 }
 
-void Grid::loadGridFromFile(const char* filename) { 
+void Grid::loadGridFromFile(const char* filename) {
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Error: Unable to open file " << filename << std::endl;
@@ -50,7 +50,15 @@ void Grid::loadGridFromFile(const char* filename) {
     for (int row = 0; row < SIZE; row++) {
         for (int col = 0; col < SIZE; col++) {
             cells[row][col].value = chosenGrid[row][col];
-        }
+            if(cells[row][col].value != 0)
+            {
+                cells[row][col].isEditable = false; 
+            }
+            else
+            {
+                cells[row][col].isEditable = true;
+            }
+        } 
     }
 }
 
@@ -58,7 +66,11 @@ void Grid::drawNumber(int row, int col) {
     Cell& cell = getCell(row, col);
     if (cell.value != 0) {
         std::string valueText = std::to_string(cell.value);
-        DrawText(valueText.c_str(), col * 60 + 75, row * 60 + 125, 20, BLUE);
+        if (cell.isEditable == false) {
+            DrawText(valueText.c_str(), col * 60 + 75, row * 60 + 125, 20, BLACK);
+        } else {
+            DrawText(valueText.c_str(), col * 60 + 75, row * 60 + 125, 20, BLUE);
+        }
     }
 }
 
@@ -96,15 +108,6 @@ void Grid::drawGrid() {
         // Vertical thick lines
         DrawRectangle(i * 180 + 48, 100, 2, 540, Color{0, 0, 0, 255});
     }
-}
-
-void Grid::drawNewCellValue(){
-if (selectedCell != nullptr) {
-        std::string valueText = std::to_string(selectedCell->value);
-        int textX = selectedCell->col * 60 + 75;
-        int textY = selectedCell->row * 60 + 125;
-        DrawText(valueText.c_str(), textX, textY, 20, BLUE);
-   }
 }
 
 void Grid::update() {
