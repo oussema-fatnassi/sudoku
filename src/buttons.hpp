@@ -10,19 +10,19 @@ class Button {
         float width;
         float height;
         Color color;
-        const char* text;
+        string text;
         Grid* grid;
-        int number;
     public:
+        int number ;
+        Button()=default;
         Button(float x, float y, float width, float height, Color color, const char* text, Grid* grid=nullptr);
         void draw();
         void buttonHover();
-        static void drawNumbers( Grid* grid=nullptr);
         void changeCellValue();
-        void update();
-        static void drawEraseButton(Grid* grid);
-        static void drawCheckButton(Grid* grid);
-
 };
-
 #endif  // BUTTONS_H
+        // static void drawNumbers( Grid* grid=nullptr);
+        // void update();
+        // static void drawEraseButton(Grid* grid);
+        // static void drawCheckButton(Grid* grid);
+
