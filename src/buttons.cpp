@@ -38,6 +38,7 @@ void Button::buttonClicked() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
         if (grid->getSelectedCell() != nullptr) {
             grid->setCellValue(number);
+            grid->drawNewCellValue(); // Call this method to draw the new value
         }
         std::cout << "Button number: " << number << std::endl;
     }
@@ -45,12 +46,12 @@ void Button::buttonClicked() {
 
 void Button::drawNumbers(Grid* grid) {
     int number = 1;
-    char buffer[10]; 
+    char buffer[10];
     for (int i = 0; i < 9; i++) {
-        int x = 38 + i * (55 + 8); 
-        int y = 700; 
+        int x = 38 + i * (55 + 8);
+        int y = 700;
         snprintf(buffer, sizeof(buffer), "%d", number);
-        Button numberButton(x, y, 55, 55, WHITE, buffer,grid);
+        Button numberButton(x, y, 55, 55, WHITE, buffer, grid);
         numberButton.draw();
         numberButton.buttonClicked();
         number++;
