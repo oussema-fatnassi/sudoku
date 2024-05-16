@@ -9,6 +9,10 @@ class GUI {
     
     public:
         Grid sudokuGrid;
+        Button numberButtons[9];
+        Button eraseButton;
+        Button checkButton;
+    public:
         GUI();
         void draw();
         void update();
