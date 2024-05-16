@@ -2,7 +2,10 @@
 #include "cell.hpp"
 #include <raylib.h>
 #include <sstream>
-
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
 using namespace std;
 
 Grid::Grid() : selectedCell(nullptr) {
@@ -15,6 +18,48 @@ Grid::Grid() : selectedCell(nullptr) {
 
 Cell& Grid::getCell(int row, int col) {
     return cells[row][col];
+}
+
+void Grid::loadGridFromFile(const char* filename) { 
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Error: Unable to open file " << filename << std::endl;
+        return;
+    }
+    allGrids.clear();
+    vector<int> row(SIZE, 0);
+    vector<vector<int>> grid(SIZE, row);
+    int gridCount = 0;
+    while (file) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                file >> grid[i][j];
+            }
+        }
+        allGrids.push_back(grid);
+        gridCount++;
+    }
+    file.close();
+
+    srand(static_cast<unsigned int>(time(0)));
+
+    int randomIndex = rand() % gridCount;
+    vector<vector<int>> chosenGrid = allGrids[randomIndex];
+    cout << "Random index: " << randomIndex << endl;
+
+    for (int row = 0; row < SIZE; row++) {
+        for (int col = 0; col < SIZE; col++) {
+            cells[row][col].value = chosenGrid[row][col];
+        }
+    }
+}
+
+void Grid::drawNumber(int row, int col) {
+    Cell& cell = getCell(row, col);
+    if (cell.value != 0) {
+        std::string valueText = std::to_string(cell.value);
+        DrawText(valueText.c_str(), col * 60 + 75, row * 60 + 125, 20, BLACK);
+    }
 }
 
 void Grid::drawGrid() {
@@ -32,6 +77,9 @@ void Grid::drawGrid() {
 
             DrawRectangle(col * 60 + 50, row * 60 + 100, 60, 60, cellColor);
 
+            // Draw the cell value if it is non-zero
+            drawNumber(row, col);
+
             // Draw horizontal lines
             DrawLine(col * 60 + 50, row * 60 + 100, (col + 1) * 60 + 50, row * 60 + 100, Color{0, 0, 0, 255});
             DrawLine(col * 60 + 50, (row + 1) * 60 + 100, (col + 1) * 60 + 50, (row + 1) * 60 + 100, Color{0, 0, 0, 255});
@@ -48,6 +96,7 @@ void Grid::drawGrid() {
         // Vertical thick lines
         DrawRectangle(i * 180 + 48, 100, 2, 540, Color{0, 0, 0, 255});
     }
+
 }
 
 void Grid::update() {
