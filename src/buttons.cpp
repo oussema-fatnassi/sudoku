@@ -26,7 +26,6 @@ void Button::draw() {
     DrawText(buttonText, x + textSizeX, y + textSizeY, 20, BLACK);
 }
 
-
 void Button::buttonHover() {
     if (CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
         color = {205, 232, 229, 255}; // Change the background color
@@ -44,30 +43,10 @@ void Button::changeCellValue() {
     }
 }
 
-// void Button::drawNumbers(Grid* grid) {
-//     int number = 1;
-//     char buffer[10];
-//     for (int i = 0; i < 9; i++) {
-//         int x = 38 + i * (55 + 8);
-//         int y = 700;
-//         snprintf(buffer, sizeof(buffer), "%d", number);
-//         Button numberButton(x, y, 55, 55, WHITE, buffer, grid);
-//         numberButton.draw();
-//         numberButton.changeCellValue();
-//         number++;
-//     }
-// }
-
-// void Button::drawEraseButton(Grid* grid) {
-//     int x = 90;
-//     int y = 820;
-//     Button eraseButton(x, y, 140, 80, WHITE, "Erase", grid);
-//     eraseButton.draw();
-// }
-
-// void Button::drawCheckButton(Grid* grid) {
-//     int x = 400;
-//     int y = 820;
-//     Button eraseButton(x, y, 140, 80, WHITE, "Check", grid);
-//     eraseButton.draw();
-// }
+void Button::eraseCellValue(){
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
+        if (grid->getSelectedCell() != nullptr && grid->getSelectedCell()->isEditable==true) {
+            grid->setCellValue(0);
+        }
+    }
+}

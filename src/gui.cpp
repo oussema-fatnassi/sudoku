@@ -10,7 +10,7 @@ using namespace std;
 
 GUI::GUI() {
     sudokuGrid = Grid();
-    
+
     for (int i = 0; i < 9; i++) {
         int x = 38 + i * (55 + 8);
         int y = 700;
@@ -34,6 +34,7 @@ void GUI::draw() {
         numberButtons[i].changeCellValue();
     }
     eraseButton.draw();
+    eraseButton.eraseCellValue();
     checkButton.draw();
 }
 

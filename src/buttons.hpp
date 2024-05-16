@@ -19,10 +19,6 @@ class Button {
         void draw();
         void buttonHover();
         void changeCellValue();
+        void eraseCellValue();
 };
 #endif  // BUTTONS_H
-        // static void drawNumbers( Grid* grid=nullptr);
-        // void update();
-        // static void drawEraseButton(Grid* grid);
-        // static void drawCheckButton(Grid* grid);
-
