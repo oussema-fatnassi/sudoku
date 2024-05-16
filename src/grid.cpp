@@ -25,9 +25,9 @@ void Grid::drawGrid() {
             Color cellColor = Color{255, 255, 255, 255}; // Default white color
 
             if (cell.isSelected) {
-                cellColor = Color{0, 173, 181, 255}; // Red for selected cell
+                cellColor = Color{0, 173, 181, 255}; // for selected cell
             } else if (cell.isHighlighted) {
-                cellColor = Color{205, 232, 229, 255}; // Yellow for highlighted cells
+                cellColor = Color{205, 232, 229, 255}; // for highlighted cells
             }
 
             DrawRectangle(col * 60 + 50, row * 60 + 100, 60, 60, cellColor);
