@@ -3,6 +3,14 @@
 #include "grid.hpp"
 #include "cell.hpp"
 #include "gui.hpp"
+#include "menu.hpp"
+
+enum GameState {
+    MAIN_MENU,
+    GAMEPLAY,
+    CREDITS,
+    ABOUT
+};
 
 int main()
 {
@@ -14,16 +22,71 @@ int main()
     InitWindow(screenWidth, screenHeight, "Sudoku");
     SetTargetFPS(60);
 
-    // Grid sudokuGrid = Grid();
     GUI sudokuGUI = GUI();
+    Menu menu = Menu();
+    GameState currentState = MAIN_MENU;
 
     while (!WindowShouldClose())
     {
-        // sudokuGrid.update();
+        switch (currentState)
+        {
+            case MAIN_MENU:
+                menu.update();
+                if (menu.isStartPressed()) {
+                    currentState = GAMEPLAY;
+                } else if (menu.isCreditsPressed()) {
+                    currentState = CREDITS;
+                } else if (menu.isAboutPressed()) {
+                    currentState = ABOUT;
+                } else if (menu.isExitPressed()) {
+                    CloseWindow();
+                    return 0; // Quitter le jeu
+                }
+                break;
+
+            case GAMEPLAY:
+                // Ajoutez la logique de mise à jour du gameplay ici, si nécessaire
+                break;
+
+            case CREDITS:
+                menu.updateBackButton();
+                if (menu.isBackPressed()) {
+                    currentState = MAIN_MENU;
+                    menu.resetBackPressed(); // Réinitialiser l'état du bouton
+                }
+                break;
+
+            case ABOUT:
+                menu.updateBackButton();
+                if (menu.isBackPressed()) {
+                    currentState = MAIN_MENU;
+                    menu.resetBackPressed(); 
+                }
+                break;
+        }
+
         BeginDrawing();
-        sudokuGUI.draw();
         ClearBackground(darkGreen);
-        // sudokuGrid.drawGrid();
+
+        switch (currentState)
+        {
+            case MAIN_MENU:
+                menu.draw();
+                break;
+
+            case GAMEPLAY:
+                sudokuGUI.draw();
+                break;
+
+            case CREDITS:
+                menu.drawCredits();
+                break;
+
+            case ABOUT:
+                menu.drawAbout();
+                break;
+        }
+
         EndDrawing();
     }
 
