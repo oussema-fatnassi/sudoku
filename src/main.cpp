@@ -23,6 +23,11 @@ int main()
         ClearBackground(darkGreen);
         sudokuGUI.draw();
         EndDrawing();
+        if (sudokuGUI.sudokuGrid.checkWinCondition()) {
+            std::cout << "You win!" << std::endl;
+            std::cin.get(); // Pause the program
+            break;
+        }
     }
     CloseWindow();
     return 0;
