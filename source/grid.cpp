@@ -1,14 +1,68 @@
 // creation sudoku grid in terminal
-
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
 #include "grid.hpp"
+#include <fstream>
 using namespace std;
 
-
 Grid::Grid() {
-    cells.resize(SIZE, vector<int>(SIZE, 0));
+    cells.resize(SIZE, vector<int>(SIZE, 1));
+    loadGridFromFile("sudoku_grid.txt");
+    int originalRandomIndex;
+    removeRandomValues(1);
+    copyUnsolvedGrid();
+    // printUnsolvedGrid();
+}
+
+void Grid::loadGridFromFile(const char* filename) { 
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Error: Unable to open file " << filename << std::endl;
+        return;
+    }
+
+    vector<int> row(SIZE, 0);
+    vector<vector<int>> grid(SIZE, row);
+    int gridCount = 0;
+    while (file) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                file >> grid[i][j];
+            }
+        }
+        allGrids.push_back(grid);
+        gridCount++;
+    }
+    file.close();
+
+    srand(static_cast<unsigned int>(time(0)));
+
+    int randomIndex = rand() % gridCount;
+    cells = allGrids[randomIndex];
+    originalRandomIndex = randomIndex;
+}
+
+void Grid::printUnsolvedGrid() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            cout << unsolvedGrid[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+void Grid::copyUnsolvedGrid() {
+    unsolvedGrid = cells;
+}
+
+void Grid::removeRandomValues(int numValuesToRemove) {
+    for (int i = 0; i < numValuesToRemove; i++) {
+        int row = rand() % SIZE;
+        int col = rand() % SIZE;
+        cells[row][col] = 0;
+    }
 }
 
 void Grid::drawGrid() {
@@ -36,4 +90,107 @@ void Grid::setCellValue(int row, int col, int value) {
 
 int Grid::getCellValue(int row, int col) {
     return cells[row][col];
+}
+
+void Grid::chooseCellValue() {
+    int row, col, value;
+    while (true) {
+        cout << "Enter a row between 1 and 9: ";
+        if (!(cin >> row)) {
+            cout << "Invalid input. Please enter a number between 1 and 9." << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
+        if (row < 1 || row > 9) {
+            cout << "Invalid row. Please enter a row between 1 and 9." << endl;
+            continue;
+        }
+        cout << "Enter a column between 1 and 9: ";
+        if (!(cin >> col)) {
+            cout << "Invalid input. Please enter a number between 1 and 9." << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
+        if (col < 1 || col > 9) {
+            cout << "Invalid column. Please enter a column between 1 and 9." << endl;
+            continue;
+        }
+        if (unsolvedGrid[row - 1][col - 1] != 0) {
+            cout << "You can't change values of default grid, please try again" << endl;
+            continue;
+        }
+        cout << "Enter a value between 1 and 9: ";
+        if (!(cin >> value)) {
+            cout << "Invalid input. Please enter a number between 1 and 9." << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
+        if (value < 1 || value > 9) {
+            cout << "Invalid value. Please enter a value between 1 and 9." << endl;
+            continue;
+        }
+        break;
+    }
+    setCellValue(row - 1, col - 1, value);
+    drawGrid();
+}
+
+void Grid::menu() {
+    int choice;
+    bool gridDrawn = false;
+    while (true) {
+        if (!gridDrawn) {
+            cout << "Welcome to Sudoku!" << endl;
+            cout << "1. Draw grid" << endl;
+            // cout << "2. Choose cell value" << endl;
+            // cout << "2. Choose a difficulty level" << endl;
+            cout << "3. Exit" << endl;
+        } else {
+            cout << "1. Choose cell value" << endl;
+            cout << "2. Check solution" << endl;
+            cout << "3. Exit" << endl;
+        }
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                if (!gridDrawn) {
+                    drawGrid();
+                    gridDrawn = true;
+                } else {
+                    chooseCellValue();
+                }
+                break;
+            // case 2:
+            //     if (!gridDrawn) {
+            //         chooseCellValue();
+            //     }
+            //     else {
+            //         checkSolution();
+            //     }
+            //     break;
+            case 3:
+                cout << "See you next time" << endl;
+                exit(0);
+            default:
+                cout << "Invalid choice. Please enter a number between 1 and 3." << endl;
+        }
+    }
+}
+
+void Grid::checkSolution() {
+    vector<vector<int>> solutionGrid = allGrids[originalRandomIndex]; 
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (this->cells[i][j] != solutionGrid[i][j]) {
+                cout << "Incorrect solution" << endl;
+                return;
+            }
+        }
+    }
+    cout << "Congratulations! You solved the puzzle" << endl;
 }
