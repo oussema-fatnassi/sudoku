@@ -18,7 +18,6 @@ Button::Button(float x, float y, float width, float height, Color color, const c
 
 void Button::draw() {
     buttonHover();
-    buttonClicked();
     DrawRectangle(x, y, width, height, color);
     int textWidth = MeasureText(text, 20);
     int textHeight = 20;
@@ -39,7 +38,6 @@ void Button::buttonClicked() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
         if (grid->getSelectedCell() != nullptr) {
             grid->setCellValue(number);
-            grid->update();
         }
         std::cout << "Button number: " << number << std::endl;
     }
@@ -54,6 +52,7 @@ void Button::drawNumbers(Grid* grid) {
         snprintf(buffer, sizeof(buffer), "%d", number);
         Button numberButton(x, y, 55, 55, WHITE, buffer,grid);
         numberButton.draw();
+        numberButton.buttonClicked();
         number++;
     }
 }

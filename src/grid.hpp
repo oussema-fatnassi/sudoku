@@ -23,7 +23,7 @@ class Grid {
         void highlightCells();
         void highlightSubgrid();
         void setCellValue(int value);
-        void drawNumbersAdded();
+        void drawNewCellValue();
         Cell* getSelectedCell() { return selectedCell; }
 };
 #endif  // GRID_H

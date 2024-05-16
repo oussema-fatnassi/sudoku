@@ -11,6 +11,7 @@ class GUI {
         GUI();
         void draw();
         void update();
+        void fillGrid();
 };
 
 #endif  // GUI_H

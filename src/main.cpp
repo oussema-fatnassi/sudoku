@@ -14,25 +14,15 @@ int main()
     InitWindow(screenWidth, screenHeight, "Sudoku");
     SetTargetFPS(60);
 
-    // Grid sudokuGrid = Grid();
     GUI sudokuGUI = GUI();
-    
+    sudokuGUI.fillGrid();
     while (!WindowShouldClose())
     {
-        // sudokuGrid.update();
-        BeginDrawing();
         sudokuGUI.update();
-        sudokuGUI.draw();
+        BeginDrawing();
         ClearBackground(darkGreen);
-        // sudokuGrid.drawGrid();
+        sudokuGUI.draw();
         EndDrawing();
-        (sudokuGrid.getCell(0, 0)).setValue(1);
-    }
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            cout << (sudokuGrid.getCell(i, j)).getValue() << " ";
-        }
-        cout << endl;
     }
     CloseWindow();
     return 0;
