@@ -20,7 +20,29 @@ Cell& Grid::getCell(int row, int col) {
     return cells[row][col];
 }
 
-void Grid::loadGridFromFile(const char* filename) {
+void Grid::loadGridFromFile(const char* difficulty) {
+    const char* easy = "easy";
+    const char* medium = "medium";
+    const char* hard = "hard";
+    cout << "Difficulty: " << difficulty << endl;
+    difficulty = "medium";
+    if (difficulty == easy) {
+        filename = "assets/easy.txt";
+        solutionFilename = "assets/easy_solution.txt";
+    }
+    else if (difficulty == medium) {
+        filename = "assets/medium.txt";
+        solutionFilename = "assets/medium_solution.txt";
+    }
+    else if (difficulty == hard) {
+        filename = "assets/hard.txt";
+        solutionFilename = "assets/hard_solution.txt";
+    }
+    else {
+        std::cerr << "Error: Invalid difficulty level" << std::endl;
+        return;
+    }
+
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Error: Unable to open file " << filename << std::endl;
@@ -41,10 +63,29 @@ void Grid::loadGridFromFile(const char* filename) {
     }
     file.close();
 
+    std::ifstream solution_file(solutionFilename);
+    if (!solution_file.is_open()) {
+        std::cerr << "Error: Unable to open file " << solutionFilename << std::endl;
+        return;
+    }
+    allSolutions.clear();
+    gridCount = 0;
+    while (solution_file) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                solution_file >> grid[i][j];
+            }
+        }
+        allSolutions.push_back(grid);
+        gridCount++;
+    }
+    solution_file.close();
+
     srand(static_cast<unsigned int>(time(0)));
 
     int randomIndex = rand() % gridCount;
     vector<vector<int>> chosenGrid = allGrids[randomIndex];
+    solution = allSolutions[randomIndex];
     cout << "Random index: " << randomIndex << endl;
 
     for (int row = 0; row < SIZE; row++) {
@@ -60,6 +101,18 @@ void Grid::loadGridFromFile(const char* filename) {
             }
         } 
     }
+}
+
+bool Grid::checkWinCondition() {
+    for (int row = 0; row < 9; row++) {
+        for (int col = 0; col < 9; col++) {
+            Cell& cell = getCell(row, col);
+            if (cell.value == 0 || cell.value != solution[row][col]) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 void Grid::drawNumber(int row, int col) {
