@@ -31,6 +31,7 @@ class Grid {
         void highlightSubgrid();
         void setCellValue(int value);
         Cell* getSelectedCell() { return selectedCell; }
+        void highlightSameNumber(int value);
 
         vector<vector<int>> getCurrentGrid();
 };

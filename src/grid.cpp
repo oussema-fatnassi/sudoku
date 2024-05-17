@@ -196,8 +196,13 @@ void Grid::update() {
             int row = (mouseY - 100) / 60;
             int col = (mouseX - 50) / 60;
             selectCell(row, col);
+            Cell& cell = getCell(row, col);
+            if (cell.value != 0) {
+                highlightSameNumber(cell.value);
+            }
         }
     }
+
 }
 
 void Grid::selectCell(int row, int col) {
@@ -245,6 +250,25 @@ void Grid::highlightSubgrid() {
         }
     }
 }
+
+void Grid::highlightSameNumber(int value) {
+    // Reset all cell highlights
+    for (int row = 0; row < 9; row++) {
+        for (int col = 0; col < 9; col++) {
+            cells[row][col].isHighlighted = false;
+        }
+    }
+
+    // Highlight all cells with the specified value
+    for (int row = 0; row < 9; row++) {
+        for (int col = 0; col < 9; col++) {
+            if (cells[row][col].value == value) {
+                cells[row][col].isHighlighted = true;
+            }
+        }
+    }
+}
+
 
 void Grid::setCellValue(int value) {
     if (selectedCell != nullptr ) {
