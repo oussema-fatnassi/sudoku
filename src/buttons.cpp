@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include "algorithms.hpp"
 
 Button::Button(float x, float y, float width, float height, Color color, const char* text, Grid* grid) {
     this->x = x;
@@ -57,5 +58,24 @@ void Button::checkGridFunction(){
         grid->gridChecked = true;
         grid->checkGrid();
         cout << "Checking grid..." << endl;
+    }
+}
+
+void Button::solveGridFunction(){
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
+        Algorithms algo;
+        vector<vector<int>> board = {
+        {7, 9, 5, 8, 4, 0, 0, 6, 0},
+        {8, 1, 2, 9, 0, 0, 0, 4, 0},
+        {6, 0, 0, 0, 7, 2, 8, 0, 9},
+        {0, 0, 0, 1, 9, 0, 0, 0, 0},
+        {0, 5, 0, 7, 6, 8, 1, 3, 4},
+        {1, 0, 6, 3, 2, 0, 0, 0, 8},
+        {0, 0, 1, 6, 0, 3, 4, 0, 7},
+        {9, 6, 0, 4, 0, 0, 0, 0, 0},
+        {4, 7, 0, 0, 0, 0, 0, 5, 0}
+    };
+        algo.solveSudoku(board);
+        cout << "Solving grid..." << endl;
     }
 }

@@ -16,6 +16,8 @@ int main()
 
     GUI sudokuGUI = GUI();
     sudokuGUI.fillGrid();
+
+    
     while (!WindowShouldClose())
     {
         sudokuGUI.update();

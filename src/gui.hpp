@@ -4,17 +4,15 @@
 #include "grid.hpp"
 #include "buttons.hpp"
 
-class GUI {
-    private:
-    
+class GUI {    
     public:
         Grid sudokuGrid;
         Button numberButtons[9];
         Button eraseButton;
         Button checkButton;
+        Button solveButton;
         float startTimer;
         bool timerStarted;
-    public:
         GUI();
         void draw();
         void update();

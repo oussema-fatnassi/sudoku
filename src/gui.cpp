@@ -20,6 +20,7 @@ GUI::GUI() {
     }
     eraseButton = Button(90, 820, 140, 80, WHITE, "Erase", &sudokuGrid);
     checkButton = Button(400, 820, 140, 80, WHITE, "Check", &sudokuGrid);
+    solveButton = Button(250, 900, 140, 80, WHITE, "Solve", &sudokuGrid);
 }
 
 void GUI::update() {
@@ -37,6 +38,8 @@ void GUI::draw() {
     eraseButton.draw();
     eraseButton.eraseCellValue();
     checkButton.draw();
+    solveButton.draw();
+    solveButton.solveGridFunction();
 
     int minutes = static_cast<int>((GetTime() - startTimer) / 60);
     int seconds = static_cast<int>(fmod((GetTime() - startTimer), 60.0f));

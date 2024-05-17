@@ -22,5 +22,6 @@ class Button {
         void changeCellValue();
         void eraseCellValue();
         void checkGridFunction();
+        void solveGridFunction();
 };
 #endif  // BUTTONS_H
