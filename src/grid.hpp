@@ -31,5 +31,7 @@ class Grid {
         void highlightSubgrid();
         void setCellValue(int value);
         Cell* getSelectedCell() { return selectedCell; }
+
+        vector<vector<int>> getCurrentGrid();
 };
 #endif  // GRID_H

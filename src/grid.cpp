@@ -253,3 +253,13 @@ void Grid::setCellValue(int value) {
         selectedCell->isCorrect = 0;
     }
 }
+
+vector<vector<int>> Grid::getCurrentGrid() {
+    vector<vector<int>> currentGrid(SIZE, vector<int>(SIZE, 0));
+    for (int row = 0; row < SIZE; row++) {
+        for (int col = 0; col < SIZE; col++) {
+            currentGrid[row][col] = cells[row][col].value;
+        }
+    }
+    return currentGrid;
+}

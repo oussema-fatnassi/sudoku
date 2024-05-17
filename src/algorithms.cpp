@@ -6,17 +6,6 @@
 using namespace std;
 
 void Algorithms:: solveSudoku(vector<vector<int>>& board) {
-    // vector<vector<int>> board = {
-    //     {7, 9, 5, 8, 4, 0, 0, 6, 0},
-    //     {8, 1, 2, 9, 0, 0, 0, 4, 0},
-    //     {6, 0, 0, 0, 7, 2, 8, 0, 9},
-    //     {0, 0, 0, 1, 9, 0, 0, 0, 0},
-    //     {0, 5, 0, 7, 6, 8, 1, 3, 4},
-    //     {1, 0, 6, 3, 2, 0, 0, 0, 8},
-    //     {0, 0, 1, 6, 0, 3, 4, 0, 7},
-    //     {9, 6, 0, 4, 0, 0, 0, 0, 0},
-    //     {4, 7, 0, 0, 0, 0, 0, 5, 0}
-    // };
     if (solve(board)) {
         for (const auto& row : board) {
         for (int num : row) {
@@ -27,6 +16,15 @@ void Algorithms:: solveSudoku(vector<vector<int>>& board) {
         cout << "Sudoku solved successfully!" << endl;
     } else {
         cout << "No solution exists for the given Sudoku." << endl;
+    }
+}
+
+void Algorithms::printSolvedSudoku(vector<vector<int>>& board) {
+    for (const auto& row : board) {
+        for (int num : row) {
+            cout << num << " ";
+        }
+        cout << endl;
     }
 }
 
@@ -61,5 +59,7 @@ bool Algorithms::solve(vector<vector<int>>& board) {
     return true; // Solved
 }
 
-
-    
+void Algorithms::solveGrid(Grid& grid) {
+    vector<vector<int>> board = grid.getCurrentGrid();
+    solveSudoku(board);
+}
