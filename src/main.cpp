@@ -19,7 +19,7 @@ int main() {
     sudokuGUI.menu = &menu;  // Link GUI and Menu
     menu.setGUI(&sudokuGUI); // Link Menu and GUI
 
-    sudokuGUI.fillGrid();
+    // sudokuGUI.fillGrid();
 
     while (!WindowShouldClose()) {
         sudokuGUI.update();

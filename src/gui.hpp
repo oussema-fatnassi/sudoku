@@ -12,7 +12,8 @@ class Menu;
 class GUI {   
     private:
         string difficulty;
-
+        string username;
+        
     public:
         Grid sudokuGrid;
         Menu* menu;
@@ -39,7 +40,7 @@ class GUI {
         GUI();
         void drawGame();
         void update();
-        void fillGrid();
+        // void fillGrid();
         float getElapsedTime();
         void timer();
         void drawTimer();
@@ -48,7 +49,7 @@ class GUI {
         void drawLeaderboard();
         void drawCredits();
         void setDifficulty(const string& difficulty);
-
+        void drawInputTextBox();
 };
 
 #endif  // GUI_H

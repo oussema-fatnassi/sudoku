@@ -79,9 +79,9 @@ void GUI::drawGame() {
 
 }
 
-void GUI::fillGrid(){
-    sudokuGrid.loadGridFromFile("");
-}
+// void GUI::fillGrid(){
+//     sudokuGrid.loadGridFromFile("");
+// }
 
 float GUI::getElapsedTime() {
     return GetTime() - startTimer;
@@ -175,9 +175,29 @@ void GUI::drawDifficultyMenu() {
         exitButton.disable();
         creditsButton.disable();
         leaderboardButton.disable();
+        drawInputTextBox();
     }
 }
 
 void GUI::setDifficulty(const string& diff) {
     difficulty = diff;
+}
+
+void GUI::drawInputTextBox(){
+        // Input box for username
+        int textBoxWidth = 400;
+        int textBoxHeight = 40;
+        int textBoxX = (GetScreenWidth() - textBoxWidth) / 2;
+        int textBoxY = 100;
+        DrawRectangle(textBoxX, textBoxY, textBoxWidth, textBoxHeight, LIGHTGRAY);
+        DrawText(username.c_str(), textBoxX + 5, textBoxY + 5, 20, BLACK);
+
+        // Get input from user
+        int key = GetCharPressed();
+        if (key > 0 && key != 127) {
+            username += (char)key;
+        }
+        if (IsKeyPressed(KEY_BACKSPACE) && username.size() > 0) {
+            username.pop_back();
+        }
 }
