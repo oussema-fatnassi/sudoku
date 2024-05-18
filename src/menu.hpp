@@ -4,17 +4,19 @@
 class GUI;
 
 
+enum GameState {
+    MAIN_MENU,
+    DIFFICULTY_MENU,
+    CREDITS_MENU,
+    LEADERBOARD_MENU,
+    GAMEPLAY_MENU,
+    CLOSE
+};
+
+
 class Menu {
     private:
         GUI* gui;
-        enum GameState {
-            MAIN_MENU,
-            DIFFICULTY_MENU,
-            CREDITS_MENU,
-            LEADERBOARD_MENU,
-            GAMEPLAY_MENU,
-            CLOSE
-        };
         GameState currentState;
 
     public:

@@ -94,23 +94,31 @@ void GUI::timer(){
 }
 
 void GUI::drawMainMenu() {
-    startButton.draw();
-    leaderboardButton.draw();
-    creditsButton.draw();
-    exitButton.draw();
+    if (menu-> getCurrentState() == MAIN_MENU) {
+        startButton.draw();
+        leaderboardButton.draw();
+        creditsButton.draw();
+        exitButton.draw();
+    }
 }
 
 void GUI::drawLeaderboard() {
-    backButtonLeaderboard.draw();
+    if (menu->getCurrentState() == LEADERBOARD_MENU){
+        backButtonLeaderboard.draw();
+    }
 }
 
 void GUI::drawCredits() {
+    if (menu->getCurrentState() == CREDITS_MENU){
     backButtonCredits.draw();
+    }
 }
 
 void GUI::drawDifficultyMenu() {
+    if (menu->getCurrentState() == DIFFICULTY_MENU){
     easyButton.draw();
     mediumButton.draw();
     hardButton.draw();
     backButtonDifficulty.draw();
+    }
 }
