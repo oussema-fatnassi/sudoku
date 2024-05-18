@@ -10,6 +10,7 @@ using namespace std;
 GUI::GUI() {
     sudokuGrid = Grid();
     timerStarted = false;
+    menu = nullptr;
 
     for (int i = 0; i < 9; i++) {
         int x = 38 + i * (55 + 8);
@@ -21,14 +22,28 @@ GUI::GUI() {
     eraseButton = Button(90, 820, 140, 80, WHITE, "Erase", &sudokuGrid);
     checkButton = Button(400, 820, 140, 80, WHITE, "Check", &sudokuGrid);
     solveButton = Button(250, 900, 140, 80, WHITE, "Solve", &sudokuGrid);
+    startButton = Button(170, 200, 300, 120, WHITE, "Start");
+    leaderboardButton = Button(170, 370, 300, 120, WHITE, "Leaderboard");
+    creditsButton = Button(170, 525, 300, 120, WHITE, "Credits");
+    exitButton = Button(170, 680, 300, 120, WHITE, "Exit");
+    backButtonLeaderboard = Button(220, 800, 200, 100, WHITE, "Back");
+    easyButton = Button(220, 200, 200, 100, WHITE, "Easy");
+    mediumButton = Button(220, 350, 200, 100, WHITE, "Medium");
+    hardButton = Button(220, 500, 200, 100, WHITE, "Hard");
+    backButtonDifficulty = Button(220, 800, 200, 100, WHITE, "Back");
+    backButtonCredits = Button(220, 800, 200, 100, WHITE, "Back");
+
 }
 
 void GUI::update() {
     sudokuGrid.update();
+    if (menu != nullptr) {
+        menu->updateMenu();
+    }
     timer();
 }
 
-void GUI::draw() {
+void GUI::drawGame() {
     sudokuGrid.update();
     sudokuGrid.drawGrid();
     for (int i = 0; i < 9; i++) {
@@ -76,4 +91,26 @@ void GUI::timer(){
             sudokuGrid.selectCell(row, col);
         }
     }
+}
+
+void GUI::drawMainMenu() {
+    startButton.draw();
+    leaderboardButton.draw();
+    creditsButton.draw();
+    exitButton.draw();
+}
+
+void GUI::drawLeaderboard() {
+    backButtonLeaderboard.draw();
+}
+
+void GUI::drawCredits() {
+    backButtonCredits.draw();
+}
+
+void GUI::drawDifficultyMenu() {
+    easyButton.draw();
+    mediumButton.draw();
+    hardButton.draw();
+    backButtonDifficulty.draw();
 }

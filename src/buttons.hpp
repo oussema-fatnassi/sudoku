@@ -13,6 +13,7 @@ class Button {
         Color color;
         string text;
         Grid* grid;
+        // bool buttonIsClicked;
     public:
         int number ;
         Button()=default;
@@ -23,5 +24,6 @@ class Button {
         void eraseCellValue();
         void checkGridFunction();
         void solveGridFunction();
+        bool isClicked();
 };
 #endif  // BUTTONS_H

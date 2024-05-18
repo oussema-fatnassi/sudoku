@@ -1,39 +1,29 @@
 #ifndef MENU_HPP
 #define MENU_HPP
 
-#include <raylib.h>
-#include "buttons.hpp"
+class GUI;
+
 
 class Menu {
-public:
-    Menu();
-    ~Menu();
-    void draw();
-    void drawCredits();
-    void drawAbout();
-    void update();
-    void updateBackButton();
-    void resetBackPressed();  
-    bool isStartPressed() const;
-    bool isCreditsPressed() const;
-    bool isAboutPressed() const;
-    bool isExitPressed() const;
-    bool isBackPressed() const;
+    private:
+        GUI* gui;
+        enum GameState {
+            MAIN_MENU,
+            DIFFICULTY_MENU,
+            CREDITS_MENU,
+            LEADERBOARD_MENU,
+            GAMEPLAY_MENU,
+            CLOSE
+        };
+        GameState currentState;
 
-private:
-    Button startButton;
-    Button creditsButton;
-    Button aboutButton;
-    Button exitButton;
-    Button backButton;
-    bool startPressed;
-    bool creditsPressed;
-    bool aboutPressed;
-    bool exitPressed;
-    bool backPressed;
-    Texture2D menuBackground;
-    Texture2D creditsBackground;
-    Texture2D aboutBackground;
+    public:
+        Menu();
+        void drawMenu();
+        void updateMenu();
+        void setGUI(GUI* gui);
+
+        GameState getCurrentState() const { return currentState; }
 };
 
 #endif // MENU_HPP

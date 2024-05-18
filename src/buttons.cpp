@@ -37,7 +37,7 @@ void Button::buttonHover() {
 }
 
 void Button::changeCellValue() {
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
+    if (isClicked()) {
         if (grid->getSelectedCell() != nullptr && grid->getSelectedCell()->isEditable==true) {
             grid->setCellValue(number);
         }
@@ -46,7 +46,7 @@ void Button::changeCellValue() {
 }
 
 void Button::eraseCellValue(){
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
+    if (isClicked()) {
         if (grid->getSelectedCell() != nullptr && grid->getSelectedCell()->isEditable==true) {
             grid->setCellValue(0);
         }
@@ -54,7 +54,7 @@ void Button::eraseCellValue(){
 }
 
 void Button::checkGridFunction(){
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
+    if (isClicked()) {
         grid->gridChecked = true;
         grid->checkGrid();
         cout << "Checking grid..." << endl;
@@ -62,9 +62,16 @@ void Button::checkGridFunction(){
 }
 
 void Button::solveGridFunction(){
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
+    if (isClicked()) {
         cout << "Solving grid..." << endl;
         Algorithms algo;
         algo.solveGrid(*grid);
     }
+}
+
+bool Button::isClicked() {
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
+        return true;
+    }
+    return false;
 }
