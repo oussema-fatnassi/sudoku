@@ -5,9 +5,14 @@
 #include "buttons.hpp"
 #include "menu.hpp"
 
+using namespace std;
+
 class Menu;
 
-class GUI {    
+class GUI {   
+    private:
+        string difficulty;
+
     public:
         Grid sudokuGrid;
         Menu* menu;
@@ -37,10 +42,12 @@ class GUI {
         void fillGrid();
         float getElapsedTime();
         void timer();
+        void drawTimer();
         void drawMainMenu();
         void drawDifficultyMenu();
         void drawLeaderboard();
         void drawCredits();
+        void setDifficulty(const string& difficulty);
 
 };
 

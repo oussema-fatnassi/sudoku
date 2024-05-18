@@ -62,12 +62,32 @@ void GUI::drawGame() {
         numberButtons[i].changeCellValue();
     }
     eraseButton.draw();
-    eraseButton.eraseCellValue();
     checkButton.draw();
     solveButton.draw();
-    solveButton.solveGridFunction();
     closeButton.draw();
+    solveButton.solveGridFunction();
+    eraseButton.eraseCellValue();
+    checkButton.checkGridFunction();
+    drawTimer();
 
+
+     if (!difficulty.empty()) {
+        int textWidth = MeasureText(difficulty.c_str(), 40);
+        int x = (GetScreenWidth() - textWidth) / 2;
+        DrawText(difficulty.c_str(), x, 650, 40, BLACK);
+    }
+
+}
+
+void GUI::fillGrid(){
+    sudokuGrid.loadGridFromFile("");
+}
+
+float GUI::getElapsedTime() {
+    return GetTime() - startTimer;
+}
+
+void GUI::drawTimer(){
     int minutes = static_cast<int>((GetTime() - startTimer) / 60);
     int seconds = static_cast<int>(fmod((GetTime() - startTimer), 60.0f));
     if (timerStarted) { // Only draw the timer text if the timer has started
@@ -77,15 +97,6 @@ void GUI::drawGame() {
     } else {
         DrawText("00:00", 10, 20, 20, BLACK);
     }
-    checkButton.checkGridFunction();
-}
-
-void GUI::fillGrid(){
-    sudokuGrid.loadGridFromFile("easy");
-}
-
-float GUI::getElapsedTime() {
-    return GetTime() - startTimer;
 }
 
 void GUI::timer(){
@@ -165,4 +176,8 @@ void GUI::drawDifficultyMenu() {
         creditsButton.disable();
         leaderboardButton.disable();
     }
+}
+
+void GUI::setDifficulty(const string& diff) {
+    difficulty = diff;
 }
