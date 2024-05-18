@@ -24,17 +24,15 @@ void Grid::loadGridFromFile(const char* difficulty) {
     const char* easy = "easy";
     const char* medium = "medium";
     const char* hard = "hard";
-    cout << "Difficulty: " << difficulty << endl;
-    difficulty = "medium";
-    if (difficulty == easy) {
+    if (strcmp(difficulty, easy) == 0) {                    // strcmp compares two strings
         filename = "assets/easy.txt";
         solutionFilename = "assets/easy_solution.txt";
     }
-    else if (difficulty == medium) {
+    else if (strcmp(difficulty, medium) == 0) {
         filename = "assets/medium.txt";
         solutionFilename = "assets/medium_solution.txt";
     }
-    else if (difficulty == hard) {
+    else if (strcmp(difficulty, hard) == 0) {
         filename = "assets/hard.txt";
         solutionFilename = "assets/hard_solution.txt";
     }

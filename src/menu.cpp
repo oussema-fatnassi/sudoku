@@ -65,11 +65,14 @@ void Menu::updateMenu() {
     }
     else if (gui->easyButton.isClicked()) {
         currentState = GAMEPLAY_MENU;
+        gui->sudokuGrid.loadGridFromFile("easy");
     }
     else if (gui->mediumButton.isClicked()) {
         currentState = GAMEPLAY_MENU;
+        gui->sudokuGrid.loadGridFromFile("medium");
     }
     else if (gui->hardButton.isClicked()) {
         currentState = GAMEPLAY_MENU;
+        gui->sudokuGrid.loadGridFromFile("hard");
     }
 }
