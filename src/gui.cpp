@@ -44,6 +44,9 @@ void GUI::update() {
 }
 
 void GUI::drawGame() {
+    backButtonCredits.disable();
+    backButtonLeaderboard.disable();
+    backButtonDifficulty.disable();
     sudokuGrid.update();
     sudokuGrid.drawGrid();
     for (int i = 0; i < 9; i++) {
@@ -99,26 +102,54 @@ void GUI::drawMainMenu() {
         leaderboardButton.draw();
         creditsButton.draw();
         exitButton.draw();
+        startButton.enable();
+        leaderboardButton.enable();
+        creditsButton.enable();
+        exitButton.enable();
+        easyButton.disable();
+        mediumButton.disable();
+        hardButton.disable();
+        backButtonLeaderboard.disable();
+        backButtonCredits.disable();
     }
 }
 
 void GUI::drawLeaderboard() {
     if (menu->getCurrentState() == LEADERBOARD_MENU){
         backButtonLeaderboard.draw();
+        startButton.disable();
+        exitButton.disable();
+        creditsButton.disable();
+        easyButton.disable();
+        mediumButton.disable();
+        hardButton.disable();
     }
 }
 
 void GUI::drawCredits() {
     if (menu->getCurrentState() == CREDITS_MENU){
-    backButtonCredits.draw();
+        backButtonCredits.draw();
+        exitButton.disable();
+        startButton.disable();
+        leaderboardButton.disable();
+        easyButton.disable();
+        mediumButton.disable();
+        hardButton.disable();
     }
 }
 
 void GUI::drawDifficultyMenu() {
     if (menu->getCurrentState() == DIFFICULTY_MENU){
-    easyButton.draw();
-    mediumButton.draw();
-    hardButton.draw();
-    backButtonDifficulty.draw();
+        easyButton.draw();
+        mediumButton.draw();
+        hardButton.draw();
+        easyButton.enable();
+        mediumButton.enable();
+        hardButton.enable();
+        backButtonDifficulty.draw();
+        startButton.disable();
+        exitButton.disable();
+        creditsButton.disable();
+        leaderboardButton.disable();
     }
 }

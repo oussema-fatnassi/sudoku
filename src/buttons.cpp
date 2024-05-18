@@ -15,17 +15,19 @@ Button::Button(float x, float y, float width, float height, Color color, const c
     this->color = color;
     this->text = text;
     this->grid = grid;
+    enabled = true;
 }
 
 void Button::draw() {
-    buttonHover();
-    DrawRectangle(x, y, width, height, color);
-    const char* buttonText = text.c_str(); // Convert std::string to const char*
-    int textWidth = MeasureText(buttonText, 20);
-    int textHeight = 20;
-    int textSizeX = (width - textWidth) / 2;
-    int textSizeY = (height - textHeight) / 2;
-    DrawText(buttonText, x + textSizeX, y + textSizeY, 20, BLACK);
+        buttonHover();
+        DrawRectangle(x, y, width, height, color);
+        const char* buttonText = text.c_str(); // Convert std::string to const char*
+        int textWidth = MeasureText(buttonText, 20);
+        int textHeight = 20;
+        int textSizeX = (width - textWidth) / 2;
+        int textSizeY = (height - textHeight) / 2;
+        DrawText(buttonText, x + textSizeX, y + textSizeY, 20, BLACK);
+    
 }
 
 void Button::buttonHover() {
@@ -70,9 +72,19 @@ void Button::solveGridFunction(){
 }
 
 bool Button::isClicked() {
+    if (!enabled) {
+        return false;
+    }
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), Rectangle{x, y, width, height})) {
         return true;
     }
     return false;
 }
 
+void Button::disable() {
+    enabled = false;
+}
+
+void Button::enable() {
+    enabled = true;
+}

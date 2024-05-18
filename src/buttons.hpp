@@ -13,7 +13,7 @@ class Button {
         Color color;
         string text;
         Grid* grid;
-        // bool buttonIsClicked;
+        bool enabled;
     public:
         int number ;
         Button()=default;
@@ -25,5 +25,7 @@ class Button {
         void checkGridFunction();
         void solveGridFunction();
         bool isClicked();
+        void disable();
+        void enable();
 };
 #endif  // BUTTONS_H
