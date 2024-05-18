@@ -44,6 +44,7 @@ class GUI {
         float getElapsedTime();
         void timer();
         void drawTimer();
+        void resetTimer();
         void drawMainMenu();
         void drawDifficultyMenu();
         void drawLeaderboard();

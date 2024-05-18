@@ -45,6 +45,7 @@ void GUI::update() {
     timer();
     if (closeButton.isClicked()) {
         menu->setCurrentState(MAIN_MENU);
+        resetTimer();
     }
 }
 
@@ -97,6 +98,10 @@ void GUI::drawTimer(){
     } else {
         DrawText("00:00", 10, 20, 20, BLACK);
     }
+}
+
+void GUI::resetTimer(){
+    timerStarted = false;
 }
 
 void GUI::timer(){
@@ -189,7 +194,7 @@ void GUI::drawInputTextBox(){
         int textBoxHeight = 40;
         int textBoxX = (GetScreenWidth() - textBoxWidth) / 2;
         int textBoxY = 100;
-        DrawRectangle(textBoxX, textBoxY, textBoxWidth, textBoxHeight, LIGHTGRAY);
+        DrawRectangle(textBoxX, textBoxY, textBoxWidth, textBoxHeight, GREEN);
         DrawText(username.c_str(), textBoxX + 5, textBoxY + 5, 20, BLACK);
 
         // Get input from user
