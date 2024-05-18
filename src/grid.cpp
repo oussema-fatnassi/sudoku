@@ -277,11 +277,17 @@ void Grid::setCellValue(int value) {
 }
 
 vector<vector<int>> Grid::getCurrentGrid() {
-    vector<vector<int>> currentGrid(SIZE, vector<int>(SIZE, 0));
+    vector<vector<int>> currentGrid;
     for (int row = 0; row < SIZE; row++) {
+        vector<int> currentRow;
         for (int col = 0; col < SIZE; col++) {
-            currentGrid[row][col] = cells[row][col].value;
+            if (!cells[row][col].isEditable) {
+                currentRow.push_back(cells[row][col].value);
+            } else {
+                currentRow.push_back(0); // Placeholder for editable cells
+            }
         }
+        currentGrid.push_back(currentRow);
     }
     return currentGrid;
 }
