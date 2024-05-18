@@ -76,3 +76,11 @@ void Menu::updateMenu() {
         gui->sudokuGrid.loadGridFromFile("hard");
     }
 }
+
+void Menu::setCurrentState(GameState state) {
+    currentState = state;
+}
+
+GameState Menu::getCurrentState() const {
+    return currentState;
+}

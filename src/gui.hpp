@@ -15,6 +15,8 @@ class GUI {
         Button eraseButton;
         Button checkButton;
         Button solveButton;
+        Button closeButton;
+
         Button startButton;
         Button creditsButton;
         Button leaderboardButton;

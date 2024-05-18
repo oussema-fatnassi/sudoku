@@ -22,6 +22,8 @@ GUI::GUI() {
     eraseButton = Button(90, 820, 140, 80, WHITE, "Erase", &sudokuGrid);
     checkButton = Button(400, 820, 140, 80, WHITE, "Check", &sudokuGrid);
     solveButton = Button(250, 900, 140, 80, WHITE, "Solve", &sudokuGrid);
+    closeButton = Button(35, 20, 50, 50, WHITE, "X", &sudokuGrid);
+
     startButton = Button(170, 200, 300, 120, WHITE, "Start");
     leaderboardButton = Button(170, 370, 300, 120, WHITE, "Leaderboard");
     creditsButton = Button(170, 525, 300, 120, WHITE, "Credits");
@@ -41,12 +43,18 @@ void GUI::update() {
         menu->updateMenu();
     }
     timer();
+    if (closeButton.isClicked()) {
+        menu->setCurrentState(MAIN_MENU);
+    }
 }
 
 void GUI::drawGame() {
     backButtonCredits.disable();
     backButtonLeaderboard.disable();
     backButtonDifficulty.disable();
+    easyButton.disable();
+    mediumButton.disable();
+    hardButton.disable();
     sudokuGrid.update();
     sudokuGrid.drawGrid();
     for (int i = 0; i < 9; i++) {
@@ -58,13 +66,14 @@ void GUI::drawGame() {
     checkButton.draw();
     solveButton.draw();
     solveButton.solveGridFunction();
+    closeButton.draw();
 
     int minutes = static_cast<int>((GetTime() - startTimer) / 60);
     int seconds = static_cast<int>(fmod((GetTime() - startTimer), 60.0f));
     if (timerStarted) { // Only draw the timer text if the timer has started
         char timerText[10];
         snprintf(timerText, sizeof(timerText), "%02d:%02d", minutes, seconds);
-        DrawText(timerText, 10, 20, 20, BLACK);
+        DrawText(timerText, 500, 30, 40, BLACK);
     } else {
         DrawText("00:00", 10, 20, 20, BLACK);
     }
@@ -123,6 +132,8 @@ void GUI::drawLeaderboard() {
         easyButton.disable();
         mediumButton.disable();
         hardButton.disable();
+        leaderboardButton.disable();
+        backButtonLeaderboard.enable();
     }
 }
 
@@ -135,6 +146,8 @@ void GUI::drawCredits() {
         easyButton.disable();
         mediumButton.disable();
         hardButton.disable();
+        creditsButton.disable();
+        backButtonCredits.enable();
     }
 }
 

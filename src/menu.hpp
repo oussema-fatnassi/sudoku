@@ -25,7 +25,8 @@ class Menu {
         void updateMenu();
         void setGUI(GUI* gui);
 
-        GameState getCurrentState() const { return currentState; }
+        GameState getCurrentState() const;
+        void setCurrentState(GameState state);
 };
 
 #endif // MENU_HPP
