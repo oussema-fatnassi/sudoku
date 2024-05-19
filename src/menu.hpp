@@ -10,6 +10,7 @@ enum GameState {
     CREDITS_MENU,
     LEADERBOARD_MENU,
     GAMEPLAY_MENU,
+    ENDGAME_MENU,
     CLOSE
 };
 

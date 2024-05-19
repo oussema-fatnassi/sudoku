@@ -31,6 +31,9 @@ void Menu::drawMenu() {
         case GAMEPLAY_MENU:
             gui->drawGame();
             break;
+        case ENDGAME_MENU:
+            gui->drawEndGame();
+            break;
         case CLOSE:
             CloseWindow();
         default:
@@ -41,7 +44,7 @@ void Menu::drawMenu() {
 void Menu::updateMenu() {
     if(gui == nullptr) {
         return;
-    }   
+    }
     if (gui->startButton.isClicked()) {
         currentState = DIFFICULTY_MENU;
     }
@@ -67,16 +70,29 @@ void Menu::updateMenu() {
         currentState = GAMEPLAY_MENU;
         gui->sudokuGrid.loadGridFromFile("easy");
         gui->setDifficulty("EASY");
+        gui->resetTimer();
     }
     else if (gui->mediumButton.isClicked()) {
         currentState = GAMEPLAY_MENU;
         gui->sudokuGrid.loadGridFromFile("medium");
         gui->setDifficulty("MEDIUM");
+        gui->resetTimer();
     }
     else if (gui->hardButton.isClicked()) {
         currentState = GAMEPLAY_MENU;
         gui->sudokuGrid.loadGridFromFile("hard");
         gui->setDifficulty("HARD");
+        gui->resetTimer();
+    }
+    else if (gui->newGameButton.isClicked()) {
+        gui->gameEnded = true;
+        gui->resetTimer();
+        currentState = DIFFICULTY_MENU;
+    }
+    else if (gui->mainMenuButton.isClicked()) {
+        gui->gameEnded = true;
+        gui->resetTimer();
+        currentState = MAIN_MENU;
     }
 }
 

@@ -291,3 +291,10 @@ vector<vector<int>> Grid::getCurrentGrid() {
     }
     return currentGrid;
 }
+void Grid::clearGrid() {
+    for (int row = 0; row < SIZE; row++) {
+        for (int col = 0; col < SIZE; col++) {
+            cells[row][col].value = 0;
+        }
+    }
+}

@@ -1,7 +1,5 @@
 #include <raylib.h>
 #include <iostream>
-// #include "grid.hpp"
-// #include "cell.hpp"
 #include "gui.hpp"
 #include "menu.hpp"
 
@@ -19,24 +17,14 @@ int main() {
     sudokuGUI.menu = &menu;  // Link GUI and Menu
     menu.setGUI(&sudokuGUI); // Link Menu and GUI
 
-    // sudokuGUI.fillGrid();
 
     while (!WindowShouldClose()) {
+        std::cout << "Current State: " << menu.getCurrentState() << std::endl;
         sudokuGUI.update();
         BeginDrawing();
         ClearBackground(darkGreen);
-        menu.drawMenu();  // Use menu.drawMenu() instead of sudokuGUI.drawMainMenu()
-
-        // Debug: print the current state
-        std::cout << "Current State: " << menu.getCurrentState() << std::endl;
-
-        // sudokuGUI.drawGame();
+        menu.drawMenu(); 
         EndDrawing();
-        if (sudokuGUI.sudokuGrid.checkWinCondition()) {
-            std::cout << "You win!" << std::endl;
-            std::cin.get(); // Pause the program
-            break;
-        }
     }
     CloseWindow();
     return 0;

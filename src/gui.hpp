@@ -9,48 +9,43 @@ using namespace std;
 
 class Menu;
 
-class GUI {   
-    private:
-        string difficulty;
-        string username;
-        
-    public:
-        Grid sudokuGrid;
-        Menu* menu;
-        Button numberButtons[9];
-        Button eraseButton;
-        Button checkButton;
-        Button solveButton;
-        Button closeButton;
+class GUI {
+public:
+    GUI();
+    void update();
+    void drawGame();
+    void drawMainMenu();
+    void drawLeaderboard();
+    void drawCredits();
+    void drawDifficultyMenu();
+    void drawEndGame();
+    void setDifficulty(const std::string& diff);
+    void resetTimer();
+    float getElapsedTime();
+    void clearUsername();
+    void stopTimer();
+    Button numberButtons[9];
+    Button eraseButton, checkButton, solveButton, closeButton;
+    Button startButton, leaderboardButton, creditsButton, exitButton;
+    Button backButtonLeaderboard, easyButton, mediumButton, hardButton, backButtonDifficulty, backButtonCredits;
+    Button newGameButton, mainMenuButton;
+    Grid sudokuGrid;
+    bool gameEnded = false;
+    float endTime;
+    Menu* menu;
 
-        Button startButton;
-        Button creditsButton;
-        Button leaderboardButton;
-        Button exitButton;
-        Button backButton;
-        Button easyButton;
-        Button mediumButton;
-        Button hardButton;
-        Button backButtonCredits;
-        Button backButtonLeaderboard;
-        Button backButtonDifficulty;
+private:
+    void drawTexts();
+    void drawTimer();
+    void timer();
+    void drawInputTextBox();
 
-        float startTimer;
-        bool timerStarted;
-        GUI();
-        void drawGame();
-        void update();
-        // void fillGrid();
-        float getElapsedTime();
-        void timer();
-        void drawTimer();
-        void resetTimer();
-        void drawMainMenu();
-        void drawDifficultyMenu();
-        void drawLeaderboard();
-        void drawCredits();
-        void setDifficulty(const string& difficulty);
-        void drawInputTextBox();
+
+
+    bool timerStarted;
+    float startTimer;
+    std::string username, savedUsername, difficulty;
 };
+
 
 #endif  // GUI_H
