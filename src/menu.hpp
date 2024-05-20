@@ -3,8 +3,7 @@
 
 class GUI;
 
-
-enum GameState {
+enum GameState {                                        // Enum for the different states of the game
     MAIN_MENU,
     DIFFICULTY_MENU,
     CREDITS_MENU,
@@ -17,17 +16,18 @@ enum GameState {
 
 class Menu {
     private:
-        GUI* gui;
-        GameState currentState;
+        GUI* gui;                                       // Pointer to GUI object
+        GameState currentState;                         // Current state of the game
 
     public:
-        Menu();
-        void drawMenu();
+        Menu();                                        // Constructor
+        void drawMenu();                               // All the draw functions
         void updateMenu();
         void setGUI(GUI* gui);
 
         GameState getCurrentState() const;
         void setCurrentState(GameState state);
+        ~Menu();                                       // Destructor
 };
 
 #endif // MENU_HPP

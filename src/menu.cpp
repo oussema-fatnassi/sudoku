@@ -1,21 +1,21 @@
 #include "menu.hpp"
 #include "gui.hpp"
 
-Menu::Menu() {
+Menu::Menu() {                                              // Constructor
     currentState = MAIN_MENU;
     gui = nullptr;
 }
 
-void Menu::setGUI(GUI* gui) {
+void Menu::setGUI(GUI* gui) {                               // Set GUI
     this->gui = gui;
 }
 
-void Menu::drawMenu() {
+void Menu::drawMenu() {                                     // Draw menu
     if(gui == nullptr) {
         return;
     }
 
-    switch (currentState) {
+    switch (currentState) {                                 // Switch case for different states
         case MAIN_MENU:
             gui->drawMainMenu();
             break;
@@ -41,11 +41,11 @@ void Menu::drawMenu() {
     }
 }
 
-void Menu::updateMenu() {
-    if(gui == nullptr) {
+void Menu::updateMenu() {                                   // Update menu
+    if(gui == nullptr) {                                    // Check if GUI is null
         return;
     }
-    if (gui->startButton.isClicked()) {
+    if (gui->startButton.isClicked()) {                     // Check what button is clicked and change state accordingly
         currentState = DIFFICULTY_MENU;
     }
     else if (gui->creditsButton.isClicked()) {
@@ -96,10 +96,14 @@ void Menu::updateMenu() {
     }
 }
 
-void Menu::setCurrentState(GameState state) {
+void Menu::setCurrentState(GameState state) {               // Set current state according to the state passed
     currentState = state;
 }
 
-GameState Menu::getCurrentState() const {
+GameState Menu::getCurrentState() const {                   // Get current state
     return currentState;
+}
+
+Menu::~Menu() {                                             // Destructor
+    gui = nullptr;
 }
