@@ -263,7 +263,6 @@ void Grid::highlightSameNumber(int value) {
     }
 }
 
-
 void Grid::setCellValue(int value) {
     if (selectedCell != nullptr ) {
         selectedCell->setValue(value);
@@ -280,7 +279,7 @@ vector<vector<int>> Grid::getCurrentGrid() {
             if (!cells[row][col].isEditable) {
                 currentRow.push_back(cells[row][col].value);
             } else {
-                currentRow.push_back(0); // Placeholder for editable cells
+                currentRow.push_back(0); 
             }
         }
         currentGrid.push_back(currentRow);

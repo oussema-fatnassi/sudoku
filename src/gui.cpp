@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <fstream>
 #include "stopwatch.hpp"
+#define FILTER_BILINEAR 2 
+
 
 using namespace std;
 
@@ -22,23 +24,38 @@ GUI::GUI() {
         numberButtons[i] = Button(x, y, 55, 55, WHITE, buttonText.c_str(), &sudokuGrid); // Convert string to const char*
         numberButtons[i].number = i + 1;
     }
-    eraseButton = Button(90, 820, 140, 80, WHITE, "Erase", &sudokuGrid);
-    checkButton = Button(400, 820, 140, 80, WHITE, "Check", &sudokuGrid);
-    solveButton = Button(250, 900, 140, 80, WHITE, "Solve", &sudokuGrid);
+    eraseButton = Button(90, 820, 140, 50, WHITE, "Erase", &sudokuGrid);
+    checkButton = Button(400, 820, 140, 50, WHITE, "Check", &sudokuGrid);
+    solveButton = Button(250, 900, 140, 50, WHITE, "Solve", &sudokuGrid);
     closeButton = Button(35, 20, 50, 50, WHITE, "X", &sudokuGrid);
 
-    startButton = Button(170, 200, 300, 120, WHITE, "Start");
-    leaderboardButton = Button(170, 370, 300, 120, WHITE, "Leaderboard");
-    creditsButton = Button(170, 525, 300, 120, WHITE, "Credits");
-    exitButton = Button(170, 680, 300, 120, WHITE, "Exit");
-    backButtonLeaderboard = Button(220, 800, 200, 100, WHITE, "Back");
-    easyButton = Button(220, 200, 200, 100, WHITE, "Easy");
-    mediumButton = Button(220, 350, 200, 100, WHITE, "Medium");
-    hardButton = Button(220, 500, 200, 100, WHITE, "Hard");
-    backButtonDifficulty = Button(220, 800, 200, 100, WHITE, "Back");
-    backButtonCredits = Button(220, 800, 200, 100, WHITE, "Back");
+    startButton = Button(220, 600, 200, 50, WHITE, "START");
+    creditsButton = Button(220, 660, 200, 50, WHITE, "CREDITS");
+    exitButton = Button(220, 720, 200, 50, WHITE, "EXIT");
+    backButtonCredits = Button(220, 800, 200, 50, WHITE, "BACK");
+
+    easyButton = Button(220, 400, 200, 50, WHITE, "EASY");
+    mediumButton = Button(220, 460, 200, 50, WHITE, "MEDIUM");
+    hardButton = Button(220, 520, 200, 50, WHITE, "HARD");
+    backButtonDifficulty = Button(220, 700, 200, 50, WHITE,"BACK");
 
     stopwatch = new Stopwatch();
+
+    logoImage = LoadImage("assets/images/logo.png");
+    ImageResize(&logoImage, 400, 400);
+    logoTextureMainMenu = LoadTextureFromImage(logoImage);
+    
+    ImageResize(&logoImage, 200, 200);
+    logoTextureCredits = LoadTextureFromImage(logoImage);
+    UnloadImage(logoImage);
+
+}
+
+GUI::~GUI() {
+    std::cout << "GUI destructor called" << std::endl;
+    delete stopwatch;
+    UnloadTexture(logoTextureMainMenu);
+    UnloadTexture(logoTextureCredits);
 }
 
 void GUI::update() {
@@ -54,7 +71,6 @@ void GUI::update() {
     if (sudokuGrid.checkWinCondition()) {
         gameEnded = true;
         stopwatch->stop();
-        // endTime = getElapsedTime(); // Store the end time
         sudokuGrid.clearGrid();
         menu->setCurrentState(ENDGAME_MENU);
         }
@@ -62,7 +78,6 @@ void GUI::update() {
 
 void GUI::drawGame() {
     backButtonCredits.disable();
-    backButtonLeaderboard.disable();
     backButtonDifficulty.disable();
     easyButton.disable();
     mediumButton.disable();
@@ -90,66 +105,18 @@ void GUI:: resetTimer() {
     stopwatch->stop();
 }
 
-// float GUI::getElapsedTime() {
-//     return GetTime() - startTimer;
-// }
-
-// void GUI::stopTimer() {
-//     if (timerStarted) {
-//         endTime = getElapsedTime();
-//         timerStarted = false;
-//         gameEnded = true;
-//     }
-// }
-
 void GUI::drawTexts() {
-    int sudokuTextWidth = MeasureText(username.c_str(), 20);
-    int xSudokuText = (GetScreenWidth() - sudokuTextWidth) / 2;
-
-    // int noNameTextWidth = MeasureText("NoName", 20);
-    // int xNoNameText = (GetScreenWidth() - noNameTextWidth) / 2;
-
-    // if (savedUsername.empty()) {
-    //     DrawText("NoName", xNoNameText, 40, 20, BLACK);
-    // } else {
-    //     DrawText(savedUsername.c_str(), xSudokuText, 40, 20, BLACK);
-    // }
 
     if (!difficulty.empty()) {
-        int difficultyTextWidth = MeasureText(difficulty.c_str(), 40);
-        int xDifficultyText = (GetScreenWidth() - difficultyTextWidth) / 2;
-        DrawText(difficulty.c_str(), xDifficultyText, 650, 40, BLACK);
+        DrawText(difficulty.c_str(), 150, 60, 30, BLACK);
     }
 }
-
-// void GUI::drawTimer() {
-//         int minutes = static_cast<int>((GetTime() - startTimer) / 60);
-//         int seconds = static_cast<int>(fmod((GetTime() - startTimer), 60.0f));
-//     if (timerStarted && !gameEnded) { // Only draw the timer text if the timer has started and game has not ended
-//         char timerText[10];
-//         snprintf(timerText, sizeof(timerText), "%02d:%02d", minutes, seconds);
-//         DrawText(timerText, 500, 30, 40, BLACK);
-//     } else if (gameEnded && !timerStarted) {
-//         int minutes = static_cast<int>(endTime / 60);
-//         int seconds = static_cast<int>(fmod(endTime, 60.0f));
-//         char timerText[10];
-//         snprintf(timerText, sizeof(timerText), "%02d:%02d", minutes, seconds);
-//         DrawText(timerText, 500, 30, 40, BLACK);
-//     } else {
-//         DrawText("00:00", 10, 20, 20, BLACK);
-//     }
-// }
 
 void GUI::drawTimer() {
     char timerText[10];
     snprintf(timerText, sizeof(timerText), "%02d:%02d", stopwatch->getMinutes(), stopwatch->getSeconds());
-    DrawText(timerText, 500, 30, 40, BLACK);
+    DrawText(timerText, 500, 60, 30, BLACK);
 }
-
-// void GUI::resetTimer() {
-//     timerStarted = false;
-//     gameEnded = false;
-// }
 
 void GUI::updateTimer() {
     if (gameEnded) {
@@ -174,118 +141,60 @@ void GUI::updateTimer() {
 }
 
 void GUI::drawEndGame() {
-    // stopTimer();
     gameEnded = true;
-    // endTime = getElapsedTime();
-    DrawRectangle(85, 160, 470, 400, LIGHTGRAY);
-    drawInputTextBox();
-    int sudokuTextWidth = MeasureText("You win!", 40);
-    int xSudokuText = (GetScreenWidth() - sudokuTextWidth) / 2;
-    int enterNameTextWidth = MeasureText("Enter your name:", 20);
-    int xEnterNameText = (GetScreenWidth() - enterNameTextWidth) / 2;
+    Color colorRectangle = {205, 232, 229, 255};
+    DrawRectangle(85, 160, 470, 400, colorRectangle);
+    int victoryTextWidth = MeasureText("You win!", 40);
+    int xVictoryText = (GetScreenWidth() - victoryTextWidth) / 2;
 
-    DrawText("You win!", xSudokuText, 200, 40, BLACK);
-    DrawText("Enter your name:", xEnterNameText, 250, 20, BLACK);
+    DrawText("You win!", xVictoryText, 200, 40, BLACK);
     DrawText("Congratulations! You finished", 150, 350, 20, BLACK);
     DrawText("the game in ", 150, 380, 20, BLACK);
     char timerText[10];
     snprintf(timerText, sizeof(timerText), "%02d:%02d", stopwatch->getMinutes()-2, stopwatch->getSeconds());
     DrawText(timerText, 280, 380, 20, BLACK);
 
-    // int minutes = static_cast<int>(endTime / 60);
-    // int seconds = static_cast<int>(fmod(endTime, 60.0f));
-    // char timerText[10];
-    // snprintf(timerText, sizeof(timerText), "%02d:%02d", minutes, seconds);
-    // DrawText(timerText, 280, 380, 20, BLACK);
-
-    newGameButton = Button(155, 450, 150, 60, GREEN, "New Game");
-    mainMenuButton = Button(335, 450, 150, 60, GREEN, "Main Menu");
+    newGameButton = Button(155, 450, 150, 60, WHITE, "New Game");
+    mainMenuButton = Button(335, 450, 150, 60, WHITE, "Main Menu");
     newGameButton.draw();
     mainMenuButton.draw();
     newGameButton.enable();
     mainMenuButton.enable();
-
-    if(!leaderboardSaved){
-        LeaderboardEntry entry;
-        entry.username = (username.empty()) ? "NoName" : username;
-        entry.time = stopwatch->getMinutes() * 60 + stopwatch->getSeconds() - 2;
-        entry.difficulty = difficulty;
-        addLeaderboardEntry(entry);
-        saveLeaderboard(leaderboardEntries);
-        leaderboardSaved = true;
-    }
-}
-
-void GUI::saveLeaderboard(const vector<LeaderboardEntry>& entries) {
-    std::ofstream file("leaderboard.txt");
-    if (file.is_open()) {
-        for (const auto& entry : entries) {
-            file << entry.username << "," << entry.time << "," << entry.difficulty << "\n";
-        }
-        file.close();
-    }
-}
-
-void GUI:: addLeaderboardEntry(const LeaderboardEntry& entry) {
-    leaderboardEntries.push_back(entry);
-    std::sort(leaderboardEntries.begin(), leaderboardEntries.end(), [](const LeaderboardEntry& a, const LeaderboardEntry& b) {
-        return a.time < b.time;
-    });
-    if (leaderboardEntries.size() > 5) {
-        leaderboardEntries.pop_back();
-    }
-}
-
-string GUI::getUsername() const {
-    return inputUsername;
-}
-
-string GUI::getDifficulty() const {
-    return difficulty;
 }
 
 void GUI::drawMainMenu() {
     if (menu->getCurrentState() == MAIN_MENU) {
+        DrawTexture(logoTextureMainMenu, 125, 50, WHITE);
+
         startButton.draw();
-        leaderboardButton.draw();
         creditsButton.draw();
         exitButton.draw();
         startButton.enable();
-        leaderboardButton.enable();
         creditsButton.enable();
         exitButton.enable();
         easyButton.disable();
         mediumButton.disable();
         hardButton.disable();
-        backButtonLeaderboard.disable();
         backButtonCredits.disable();
         newGameButton.disable();
         mainMenuButton.disable();
     }
 }
 
-void GUI::drawLeaderboard() {
-    if (menu->getCurrentState() == LEADERBOARD_MENU) {
-        backButtonLeaderboard.draw();
-        startButton.disable();
-        exitButton.disable();
-        creditsButton.disable();
-        easyButton.disable();
-        mediumButton.disable();
-        hardButton.disable();
-        leaderboardButton.disable();
-        backButtonLeaderboard.enable();
-        newGameButton.disable();
-        mainMenuButton.disable();
-    }
-}
 
 void GUI::drawCredits() {
     if (menu->getCurrentState() == CREDITS_MENU) {
+        DrawTexture(logoTextureCredits, 225, 50, WHITE);
+
+        DrawText("Created by:", 220, 300, 20, BLACK);
+        DrawText("Baptiste APPRIOU", 50, 350, 20, BLACK);
+        DrawText("Oussema FATNASSI", 50, 400, 20, BLACK);
+        DrawText("Ali Abakar ISSA", 50, 450, 20, BLACK);
+
+        
         backButtonCredits.draw();
         exitButton.disable();
         startButton.disable();
-        leaderboardButton.disable();
         easyButton.disable();
         mediumButton.disable();
         hardButton.disable();
@@ -298,6 +207,12 @@ void GUI::drawCredits() {
 
 void GUI::drawDifficultyMenu() {
     if (menu->getCurrentState() == DIFFICULTY_MENU) {
+        DrawText("Sudoku is a logic-based, combinatorial number-placement puzzle.", 100, 100, 15, BLACK);
+        DrawText("The objective is to fill a 9x9 grid with digits so that each column,", 100, 125, 15, BLACK);
+        DrawText("each row, and each of the nine 3x3 subgrids that compose the grid", 90, 150, 15, BLACK);
+        DrawText("contain all of the digits from 1 to 9 without ripetitions.", 140, 175, 15, BLACK);
+        DrawText("Choose your difficulty level:", 170, 250, 20, BLACK);
+
         easyButton.draw();
         mediumButton.draw();
         hardButton.draw();
@@ -308,7 +223,6 @@ void GUI::drawDifficultyMenu() {
         startButton.disable();
         exitButton.disable();
         creditsButton.disable();
-        leaderboardButton.disable();
         backButtonDifficulty.enable();
         newGameButton.disable();
         mainMenuButton.disable();
@@ -317,34 +231,4 @@ void GUI::drawDifficultyMenu() {
 
 void GUI::setDifficulty(const string& diff) {
     difficulty = diff;
-}
-
-void GUI::drawInputTextBox() {
-    // Input box for username
-    int textBoxWidth = 300;
-    int textBoxHeight = 40;
-    int textBoxX = (GetScreenWidth() - textBoxWidth) / 2;
-    int textBoxY = 300;
-    DrawRectangle(textBoxX, textBoxY, textBoxWidth, textBoxHeight, WHITE);
-
-    // Draw the updated username input string
-    DrawText(inputUsername.c_str(), textBoxX + 5, textBoxY + 5, 20, BLACK);
-
-    // Get input from user
-    int key = GetCharPressed();
-    if (key > 0 && key != 127) {
-        inputUsername += (char)key;
-    }
-    if (IsKeyPressed(KEY_BACKSPACE) && inputUsername.size() > 0) {
-        inputUsername.pop_back();
-    }
-
-    // Update the actual username string if needed (e.g., when the user submits)
-    if ((newGameButton.isClicked() || mainMenuButton.isClicked()) && !inputUsername.empty()) {
-        username = inputUsername;
-    }
-}
-
-void GUI::clearUsername() {
-    username = "";
 }

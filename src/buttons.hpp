@@ -27,5 +27,7 @@ class Button {
         bool isClicked();
         void disable();
         void enable();
+        Font font = LoadFontEx("assets/fonts/AmericanTypewriterRegular.ttf", 20, NULL, 0);
+
 };
 #endif  // BUTTONS_H

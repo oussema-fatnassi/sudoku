@@ -7,7 +7,6 @@ enum GameState {                                        // Enum for the differen
     MAIN_MENU,
     DIFFICULTY_MENU,
     CREDITS_MENU,
-    LEADERBOARD_MENU,
     GAMEPLAY_MENU,
     ENDGAME_MENU,
     CLOSE

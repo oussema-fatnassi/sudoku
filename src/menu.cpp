@@ -22,9 +22,6 @@ void Menu::drawMenu() {                                     // Draw menu
         case CREDITS_MENU:
             gui->drawCredits();
             break;
-        case LEADERBOARD_MENU:
-            gui->drawLeaderboard();
-            break;
         case DIFFICULTY_MENU:
             gui->drawDifficultyMenu();
             break;
@@ -51,16 +48,11 @@ void Menu::updateMenu() {                                   // Update menu
     else if (gui->creditsButton.isClicked()) {
         currentState = CREDITS_MENU;
     }
-    else if (gui->leaderboardButton.isClicked()) {
-        currentState = LEADERBOARD_MENU;
-    }
+
     else if (gui->exitButton.isClicked()) {
         currentState = CLOSE;
     }
     else if (gui->backButtonCredits.isClicked()) {
-        currentState = MAIN_MENU;
-    }
-    else if (gui->backButtonLeaderboard.isClicked()) {
         currentState = MAIN_MENU;
     }
     else if (gui->backButtonDifficulty.isClicked()) {
@@ -88,27 +80,11 @@ void Menu::updateMenu() {                                   // Update menu
         gui->gameEnded = true;
         gui->resetTimer();
         currentState = DIFFICULTY_MENU;
-
-        GUI::LeaderboardEntry entry;
-        entry.username = (gui->getUsername().empty()) ? "NoName" : gui->getUsername();
-        entry.time = gui->endTime; // Assuming endTime is accessible
-        entry.difficulty = gui->getDifficulty();
-        gui->addLeaderboardEntry(entry);
-        gui->clearUsername();
-        gui->leaderboardSaved = false;
     }
     else if (gui->mainMenuButton.isClicked()) {
         gui->gameEnded = true;
         gui->resetTimer();
         currentState = MAIN_MENU;
-
-        GUI::LeaderboardEntry entry;
-        entry.username = (gui->getUsername().empty()) ? "NoName" : gui->getUsername();
-        entry.time = gui->endTime; // Assuming endTime is accessible
-        entry.difficulty = gui->getDifficulty();
-        gui->addLeaderboardEntry(entry);
-        gui->clearUsername();
-        gui->leaderboardSaved = false;
     }
 }
 
