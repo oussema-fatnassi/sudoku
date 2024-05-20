@@ -88,11 +88,23 @@ void Menu::updateMenu() {                                   // Update menu
         gui->gameEnded = true;
         gui->resetTimer();
         currentState = DIFFICULTY_MENU;
+
+        GUI::LeaderboardEntry entry;
+        entry.username = (gui->getUsername().empty()) ? "NoName" : gui->getUsername();
+        entry.time = gui->endTime; // Assuming endTime is accessible
+        entry.difficulty = gui->getDifficulty();
+        gui->addLeaderboardEntry(entry);
     }
     else if (gui->mainMenuButton.isClicked()) {
         gui->gameEnded = true;
         gui->resetTimer();
         currentState = MAIN_MENU;
+
+        GUI::LeaderboardEntry entry;
+        entry.username = (gui->getUsername().empty()) ? "NoName" : gui->getUsername();
+        entry.time = gui->endTime; // Assuming endTime is accessible
+        entry.difficulty = gui->getDifficulty();
+        gui->addLeaderboardEntry(entry);
     }
 }
 

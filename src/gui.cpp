@@ -4,6 +4,7 @@
 #include <raylib.h>
 #include <iostream>
 #include <cstdlib>
+#include <fstream>
 
 using namespace std;
 
@@ -185,6 +186,41 @@ void GUI::drawEndGame() {
     mainMenuButton.draw();
     newGameButton.enable();
     mainMenuButton.enable();
+
+    LeaderboardEntry entry;
+    entry.username = (username.empty()) ? "NoName" : username;
+    entry.time = endTime;
+    entry.difficulty = difficulty;
+    addLeaderboardEntry(entry);
+    saveLeaderboard(leaderboardEntries);
+}
+
+void GUI::saveLeaderboard(const vector<LeaderboardEntry>& entries) {
+    std::ofstream file("leaderboard.txt");
+    if (file.is_open()) {
+        for (const auto& entry : entries) {
+            file << entry.username << "," << entry.time << "," << entry.difficulty << "\n";
+        }
+        file.close();
+    }
+}
+
+void GUI:: addLeaderboardEntry(const LeaderboardEntry& entry) {
+    leaderboardEntries.push_back(entry);
+    std::sort(leaderboardEntries.begin(), leaderboardEntries.end(), [](const LeaderboardEntry& a, const LeaderboardEntry& b) {
+        return a.time < b.time;
+    });
+    if (leaderboardEntries.size() > 5) {
+        leaderboardEntries.pop_back();
+    }
+}
+
+string GUI::getUsername() const {
+    return username;
+}
+
+string GUI::getDifficulty() const {
+    return difficulty;
 }
 
 void GUI::drawMainMenu() {
