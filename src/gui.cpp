@@ -4,6 +4,7 @@
 #include <raylib.h>
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 
 using namespace std;
 
