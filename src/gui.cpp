@@ -6,24 +6,22 @@
 #include <cstdlib>
 #include <fstream>
 #include "stopwatch.hpp"
-#define FILTER_BILINEAR 2 
-
 
 using namespace std;
 
 GUI::GUI() {
-    sudokuGrid = Grid();
+    sudokuGrid = Grid();                                                            // Initialize the grid
     timerStarted = false;
     gameEnded = false;
-    menu = nullptr;
+    menu = nullptr;                                                                 // Initialize the menu pointer to nullptr
 
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 9; i++) {                                                   // Initialize the number buttons
         int x = 38 + i * (55 + 8);
         int y = 700;
-        string buttonText = to_string(i + 1); // Convert integer to string
+        string buttonText = to_string(i + 1);                                       // Convert integer to string
         numberButtons[i] = Button(x, y, 55, 55, WHITE, buttonText.c_str(), &sudokuGrid); // Convert string to const char*
         numberButtons[i].number = i + 1;
-    }
+    }                                                                               // Initialize the buttons
     eraseButton = Button(90, 820, 140, 50, WHITE, "Erase", &sudokuGrid);
     checkButton = Button(400, 820, 140, 50, WHITE, "Check", &sudokuGrid);
     solveButton = Button(250, 900, 140, 50, WHITE, "Solve", &sudokuGrid);
@@ -39,9 +37,9 @@ GUI::GUI() {
     hardButton = Button(220, 520, 200, 50, WHITE, "HARD");
     backButtonDifficulty = Button(220, 700, 200, 50, WHITE,"BACK");
 
-    stopwatch = new Stopwatch();
+    stopwatch = new Stopwatch();                                                    // Initialize the stopwatch
 
-    logoImage = LoadImage("assets/images/logo.png");
+    logoImage = LoadImage("assets/images/logo.png");                                // Load the logo image
     ImageResize(&logoImage, 400, 400);
     logoTextureMainMenu = LoadTextureFromImage(logoImage);
     
@@ -51,14 +49,13 @@ GUI::GUI() {
 
 }
 
-GUI::~GUI() {
-    std::cout << "GUI destructor called" << std::endl;
+GUI::~GUI() {                                                                       // Destructor
     delete stopwatch;
     UnloadTexture(logoTextureMainMenu);
     UnloadTexture(logoTextureCredits);
 }
 
-void GUI::update() {
+void GUI::update() {                                                                // Function to update the GUI
     sudokuGrid.update();
     if (menu != nullptr) {
         menu->updateMenu();
@@ -76,7 +73,7 @@ void GUI::update() {
         }
     }
 
-void GUI::drawGame() {
+void GUI::drawGame() {                                                              // Function to draw the game
     backButtonCredits.disable();
     backButtonDifficulty.disable();
     easyButton.disable();
@@ -99,48 +96,46 @@ void GUI::drawGame() {
     drawTexts();
 }
 
-void GUI:: resetTimer() {
+void GUI:: resetTimer() {                                                           // Function to reset the timer
     gameEnded = false;
     stopwatch->reset();
     stopwatch->stop();
 }
 
-void GUI::drawTexts() {
-
+void GUI::drawTexts() {                                                             // Function to draw the text of the difficulty level
     if (!difficulty.empty()) {
         DrawText(difficulty.c_str(), 150, 60, 30, BLACK);
     }
 }
 
-void GUI::drawTimer() {
+void GUI::drawTimer() {                                                             // Function to draw the timer
     char timerText[10];
     snprintf(timerText, sizeof(timerText), "%02d:%02d", stopwatch->getMinutes(), stopwatch->getSeconds());
     DrawText(timerText, 500, 60, 30, BLACK);
 }
 
-void GUI::updateTimer() {
+void GUI::updateTimer() {                                                           // Function to update the timer
     if (gameEnded) {
-        return; // Don't update timer if game has ended
+        return;                                                                     // Don't update timer if game has ended
     }
 
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {                                  // Start the timer when the user clicks on the grid
         int mouseX = GetMouseX();
         int mouseY = GetMouseY();
         if (mouseX > 50 && mouseX < 590 && mouseY > 100 && mouseY < 640) {
             if (!stopwatch->isRunning()) {
                 stopwatch->start();
             } else {
-                // Select the cell based on the mouse position
                 int row = (mouseY - 100) / 60;
                 int col = (mouseX - 50) / 60;
                 sudokuGrid.selectCell(row, col);
             }
         }
     }
-    stopwatch->update();
+    stopwatch->update();                                                            
 }
 
-void GUI::drawEndGame() {
+void GUI::drawEndGame() {                                                           // Function to draw the end game screen
     gameEnded = true;
     Color colorRectangle = {205, 232, 229, 255};
     DrawRectangle(85, 160, 470, 400, colorRectangle);
@@ -150,6 +145,7 @@ void GUI::drawEndGame() {
     DrawText("You win!", xVictoryText, 200, 40, BLACK);
     DrawText("Congratulations! You finished", 150, 350, 20, BLACK);
     DrawText("the game in ", 150, 380, 20, BLACK);
+
     char timerText[10];
     snprintf(timerText, sizeof(timerText), "%02d:%02d", stopwatch->getMinutes()-2, stopwatch->getSeconds());
     DrawText(timerText, 280, 380, 20, BLACK);
@@ -162,7 +158,7 @@ void GUI::drawEndGame() {
     mainMenuButton.enable();
 }
 
-void GUI::drawMainMenu() {
+void GUI::drawMainMenu() {                                                          // Function to draw the main menu
     if (menu->getCurrentState() == MAIN_MENU) {
         DrawTexture(logoTextureMainMenu, 125, 50, WHITE);
 
@@ -181,8 +177,7 @@ void GUI::drawMainMenu() {
     }
 }
 
-
-void GUI::drawCredits() {
+void GUI::drawCredits() {                                                           // Function to draw the credits
     if (menu->getCurrentState() == CREDITS_MENU) {
         DrawTexture(logoTextureCredits, 225, 50, WHITE);
 
@@ -191,7 +186,6 @@ void GUI::drawCredits() {
         DrawText("Oussema FATNASSI", 50, 400, 20, BLACK);
         DrawText("Ali Abakar ISSA", 50, 450, 20, BLACK);
 
-        
         backButtonCredits.draw();
         exitButton.disable();
         startButton.disable();
@@ -205,7 +199,7 @@ void GUI::drawCredits() {
     }
 }
 
-void GUI::drawDifficultyMenu() {
+void GUI::drawDifficultyMenu() {                                                    // Function to draw the difficulty menu
     if (menu->getCurrentState() == DIFFICULTY_MENU) {
         DrawText("Sudoku is a logic-based, combinatorial number-placement puzzle.", 100, 100, 15, BLACK);
         DrawText("The objective is to fill a 9x9 grid with digits so that each column,", 100, 125, 15, BLACK);
@@ -229,6 +223,6 @@ void GUI::drawDifficultyMenu() {
     }
 }
 
-void GUI::setDifficulty(const string& diff) {
+void GUI::setDifficulty(const string& diff) {                                       // Function to set the difficulty level
     difficulty = diff;
 }

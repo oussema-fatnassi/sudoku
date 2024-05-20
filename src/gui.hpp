@@ -6,15 +6,15 @@
 #include "menu.hpp"
 #include "stopwatch.hpp"
 
-
 using namespace std;
 
-class Menu;
+class Menu;                                                             // Forward declaration to avoid circular dependency
 
-class GUI {
+class GUI {                                                             // Class for the GUI
 public:
 
-    GUI();
+    GUI();                                                              // Default constructor
+    ~GUI();                                                             // Destructor
     void update();
     void drawGame();
     void drawMainMenu();
@@ -36,10 +36,8 @@ public:
     Grid sudokuGrid;
     bool gameEnded = false;
     float endTime;
-    Menu* menu;
+    Menu* menu;                                                             // Pointer to the menu
     Stopwatch* stopwatch;
-    bool leaderboardSaved = false;
-    ~GUI();
 
 private:
     void drawTexts();

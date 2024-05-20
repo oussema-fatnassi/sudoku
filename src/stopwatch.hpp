@@ -3,19 +3,20 @@
 
 #include <chrono>
 
-class Stopwatch {
-public:
-    Stopwatch();
+class Stopwatch {                                                           // Class for the stopwatch
+public:                                                                     // Public members
+
+    Stopwatch();                                                            // Default constructor
+    ~Stopwatch();                                                           // Destructor
     void start();
     void stop();
     void reset();
-    void update();  // New method to update elapsed time
+    void update();  
     int getSeconds() const;
     int getMinutes() const;
-    int getHours() const;
     bool isRunning() const;
 
-private:
+private:                                                                    // Private members
     std::chrono::time_point<std::chrono::system_clock> startTime;
     std::chrono::time_point<std::chrono::system_clock> endTime;
     std::chrono::duration<double> elapsed;

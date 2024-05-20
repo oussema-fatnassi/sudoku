@@ -4,8 +4,8 @@
 #include "grid.hpp"
 #include <string>
 
-class Button {
-    private:
+class Button {                                                                  // Class for buttons
+    private:                                                                    // Private members                                               
         float x;
         float y;
         float width;
@@ -14,10 +14,10 @@ class Button {
         string text;
         Grid* grid;
         bool enabled;
-    public:
-        int number ;
-        Button()=default;
-        Button(float x, float y, float width, float height, Color color, const char* text, Grid* grid=nullptr);
+    public:                                                                     // Public members
+        int number;
+        Button()=default;                                                       // Default constructor                     
+        Button(float x, float y, float width, float height, Color color, const char* text, Grid* grid=nullptr);         // Constructor
         void draw();
         void buttonHover();
         void changeCellValue();
@@ -27,7 +27,6 @@ class Button {
         bool isClicked();
         void disable();
         void enable();
-        Font font = LoadFontEx("assets/fonts/AmericanTypewriterRegular.ttf", 20, NULL, 0);
-
+        ~Button();                                                              // Destructor
 };
 #endif  // BUTTONS_H
