@@ -94,6 +94,8 @@ void Menu::updateMenu() {                                   // Update menu
         entry.time = gui->endTime; // Assuming endTime is accessible
         entry.difficulty = gui->getDifficulty();
         gui->addLeaderboardEntry(entry);
+        gui->clearUsername();
+        gui->leaderboardSaved = false;
     }
     else if (gui->mainMenuButton.isClicked()) {
         gui->gameEnded = true;
@@ -105,6 +107,8 @@ void Menu::updateMenu() {                                   // Update menu
         entry.time = gui->endTime; // Assuming endTime is accessible
         entry.difficulty = gui->getDifficulty();
         gui->addLeaderboardEntry(entry);
+        gui->clearUsername();
+        gui->leaderboardSaved = false;
     }
 }
 

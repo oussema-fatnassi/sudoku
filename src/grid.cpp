@@ -84,8 +84,6 @@ void Grid::loadGridFromFile(const char* difficulty) {
     int randomIndex = rand() % gridCount;
     vector<vector<int>> chosenGrid = allGrids[randomIndex];
     solution = allSolutions[randomIndex];
-    cout << "Random index: " << randomIndex << endl;
-
     for (int row = 0; row < SIZE; row++) {
         for (int col = 0; col < SIZE; col++) {
             cells[row][col].value = chosenGrid[row][col];
@@ -106,7 +104,6 @@ void Grid::checkGrid(){
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 if (cells[row][col].isEditable && cells[row][col].value != 0) {
-                    cout << "Row: " << row << " Col: " << col << " Value: " << cells[row][col].value << endl;
                     if (cells[row][col].value != solution[row][col]) {
                         cells[row][col].isCorrect = 1;
                     } else {
@@ -116,7 +113,6 @@ void Grid::checkGrid(){
             }
         }
         gridChecked = false;
-        cout << "Grid checked" << endl;
     }
 }
 

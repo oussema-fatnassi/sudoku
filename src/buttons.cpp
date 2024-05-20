@@ -43,7 +43,6 @@ void Button::changeCellValue() {
         if (grid->getSelectedCell() != nullptr && grid->getSelectedCell()->isEditable==true) {
             grid->setCellValue(number);
         }
-        std::cout << "Button number: " << number << std::endl;
     }
 }
 
@@ -59,13 +58,11 @@ void Button::checkGridFunction(){
     if (isClicked()) {
         grid->gridChecked = true;
         grid->checkGrid();
-        cout << "Checking grid..." << endl;
     }
 }
 
 void Button::solveGridFunction(){
     if (isClicked()) {
-        cout << "Solving grid..." << endl;
         Algorithms algo;
         algo.solveGrid(*grid);
     }

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
+#include "stopwatch.hpp"
 
 using namespace std;
 
@@ -36,6 +37,8 @@ GUI::GUI() {
     hardButton = Button(220, 500, 200, 100, WHITE, "Hard");
     backButtonDifficulty = Button(220, 800, 200, 100, WHITE, "Back");
     backButtonCredits = Button(220, 800, 200, 100, WHITE, "Back");
+
+    stopwatch = new Stopwatch();
 }
 
 void GUI::update() {
@@ -43,15 +46,15 @@ void GUI::update() {
     if (menu != nullptr) {
         menu->updateMenu();
     }
-    timer();
+    updateTimer();
     if (closeButton.isClicked()) {
         menu->setCurrentState(MAIN_MENU);
         resetTimer();
     }
     if (sudokuGrid.checkWinCondition()) {
         gameEnded = true;
-        stopTimer();
-        endTime = getElapsedTime(); // Store the end time
+        stopwatch->stop();
+        // endTime = getElapsedTime(); // Store the end time
         sudokuGrid.clearGrid();
         menu->setCurrentState(ENDGAME_MENU);
         }
@@ -81,30 +84,36 @@ void GUI::drawGame() {
     drawTexts();
 }
 
-float GUI::getElapsedTime() {
-    return GetTime() - startTimer;
+void GUI:: resetTimer() {
+    gameEnded = false;
+    stopwatch->reset();
+    stopwatch->stop();
 }
 
-void GUI::stopTimer() {
-    if (timerStarted) {
-        endTime = getElapsedTime();
-        timerStarted = false;
-        gameEnded = true;
-    }
-}
+// float GUI::getElapsedTime() {
+//     return GetTime() - startTimer;
+// }
+
+// void GUI::stopTimer() {
+//     if (timerStarted) {
+//         endTime = getElapsedTime();
+//         timerStarted = false;
+//         gameEnded = true;
+//     }
+// }
 
 void GUI::drawTexts() {
     int sudokuTextWidth = MeasureText(username.c_str(), 20);
     int xSudokuText = (GetScreenWidth() - sudokuTextWidth) / 2;
 
-    int noNameTextWidth = MeasureText("NoName", 20);
-    int xNoNameText = (GetScreenWidth() - noNameTextWidth) / 2;
+    // int noNameTextWidth = MeasureText("NoName", 20);
+    // int xNoNameText = (GetScreenWidth() - noNameTextWidth) / 2;
 
-    if (savedUsername.empty()) {
-        DrawText("NoName", xNoNameText, 40, 20, BLACK);
-    } else {
-        DrawText(savedUsername.c_str(), xSudokuText, 40, 20, BLACK);
-    }
+    // if (savedUsername.empty()) {
+    //     DrawText("NoName", xNoNameText, 40, 20, BLACK);
+    // } else {
+    //     DrawText(savedUsername.c_str(), xSudokuText, 40, 20, BLACK);
+    // }
 
     if (!difficulty.empty()) {
         int difficultyTextWidth = MeasureText(difficulty.c_str(), 40);
@@ -113,30 +122,36 @@ void GUI::drawTexts() {
     }
 }
 
+// void GUI::drawTimer() {
+//         int minutes = static_cast<int>((GetTime() - startTimer) / 60);
+//         int seconds = static_cast<int>(fmod((GetTime() - startTimer), 60.0f));
+//     if (timerStarted && !gameEnded) { // Only draw the timer text if the timer has started and game has not ended
+//         char timerText[10];
+//         snprintf(timerText, sizeof(timerText), "%02d:%02d", minutes, seconds);
+//         DrawText(timerText, 500, 30, 40, BLACK);
+//     } else if (gameEnded && !timerStarted) {
+//         int minutes = static_cast<int>(endTime / 60);
+//         int seconds = static_cast<int>(fmod(endTime, 60.0f));
+//         char timerText[10];
+//         snprintf(timerText, sizeof(timerText), "%02d:%02d", minutes, seconds);
+//         DrawText(timerText, 500, 30, 40, BLACK);
+//     } else {
+//         DrawText("00:00", 10, 20, 20, BLACK);
+//     }
+// }
+
 void GUI::drawTimer() {
-        int minutes = static_cast<int>((GetTime() - startTimer) / 60);
-        int seconds = static_cast<int>(fmod((GetTime() - startTimer), 60.0f));
-    if (timerStarted && !gameEnded) { // Only draw the timer text if the timer has started and game has not ended
-        char timerText[10];
-        snprintf(timerText, sizeof(timerText), "%02d:%02d", minutes, seconds);
-        DrawText(timerText, 500, 30, 40, BLACK);
-    } else if (gameEnded && !timerStarted) {
-        int minutes = static_cast<int>(endTime / 60);
-        int seconds = static_cast<int>(fmod(endTime, 60.0f));
-        char timerText[10];
-        snprintf(timerText, sizeof(timerText), "%02d:%02d", minutes, seconds);
-        DrawText(timerText, 500, 30, 40, BLACK);
-    } else {
-        DrawText("00:00", 10, 20, 20, BLACK);
-    }
+    char timerText[10];
+    snprintf(timerText, sizeof(timerText), "%02d:%02d", stopwatch->getMinutes(), stopwatch->getSeconds());
+    DrawText(timerText, 500, 30, 40, BLACK);
 }
 
-void GUI::resetTimer() {
-    timerStarted = false;
-    gameEnded = false;
-}
+// void GUI::resetTimer() {
+//     timerStarted = false;
+//     gameEnded = false;
+// }
 
-void GUI::timer() {
+void GUI::updateTimer() {
     if (gameEnded) {
         return; // Don't update timer if game has ended
     }
@@ -145,9 +160,8 @@ void GUI::timer() {
         int mouseX = GetMouseX();
         int mouseY = GetMouseY();
         if (mouseX > 50 && mouseX < 590 && mouseY > 100 && mouseY < 640) {
-            if (!timerStarted) {
-                startTimer = GetTime(); // Start the timer when the mouse button is clicked in the grid area for the first time
-                timerStarted = true;
+            if (!stopwatch->isRunning()) {
+                stopwatch->start();
             } else {
                 // Select the cell based on the mouse position
                 int row = (mouseY - 100) / 60;
@@ -156,12 +170,13 @@ void GUI::timer() {
             }
         }
     }
+    stopwatch->update();
 }
 
 void GUI::drawEndGame() {
-    stopTimer();
+    // stopTimer();
     gameEnded = true;
-    endTime = getElapsedTime();
+    // endTime = getElapsedTime();
     DrawRectangle(85, 160, 470, 400, LIGHTGRAY);
     drawInputTextBox();
     int sudokuTextWidth = MeasureText("You win!", 40);
@@ -173,12 +188,15 @@ void GUI::drawEndGame() {
     DrawText("Enter your name:", xEnterNameText, 250, 20, BLACK);
     DrawText("Congratulations! You finished", 150, 350, 20, BLACK);
     DrawText("the game in ", 150, 380, 20, BLACK);
-
-    int minutes = static_cast<int>(endTime / 60);
-    int seconds = static_cast<int>(fmod(endTime, 60.0f));
     char timerText[10];
-    snprintf(timerText, sizeof(timerText), "%02d:%02d", minutes, seconds);
+    snprintf(timerText, sizeof(timerText), "%02d:%02d", stopwatch->getMinutes()-2, stopwatch->getSeconds());
     DrawText(timerText, 280, 380, 20, BLACK);
+
+    // int minutes = static_cast<int>(endTime / 60);
+    // int seconds = static_cast<int>(fmod(endTime, 60.0f));
+    // char timerText[10];
+    // snprintf(timerText, sizeof(timerText), "%02d:%02d", minutes, seconds);
+    // DrawText(timerText, 280, 380, 20, BLACK);
 
     newGameButton = Button(155, 450, 150, 60, GREEN, "New Game");
     mainMenuButton = Button(335, 450, 150, 60, GREEN, "Main Menu");
@@ -187,12 +205,15 @@ void GUI::drawEndGame() {
     newGameButton.enable();
     mainMenuButton.enable();
 
-    LeaderboardEntry entry;
-    entry.username = (username.empty()) ? "NoName" : username;
-    entry.time = endTime;
-    entry.difficulty = difficulty;
-    addLeaderboardEntry(entry);
-    saveLeaderboard(leaderboardEntries);
+    if(!leaderboardSaved){
+        LeaderboardEntry entry;
+        entry.username = (username.empty()) ? "NoName" : username;
+        entry.time = stopwatch->getMinutes() * 60 + stopwatch->getSeconds() - 2;
+        entry.difficulty = difficulty;
+        addLeaderboardEntry(entry);
+        saveLeaderboard(leaderboardEntries);
+        leaderboardSaved = true;
+    }
 }
 
 void GUI::saveLeaderboard(const vector<LeaderboardEntry>& entries) {
@@ -216,7 +237,7 @@ void GUI:: addLeaderboardEntry(const LeaderboardEntry& entry) {
 }
 
 string GUI::getUsername() const {
-    return username;
+    return inputUsername;
 }
 
 string GUI::getDifficulty() const {
@@ -305,15 +326,22 @@ void GUI::drawInputTextBox() {
     int textBoxX = (GetScreenWidth() - textBoxWidth) / 2;
     int textBoxY = 300;
     DrawRectangle(textBoxX, textBoxY, textBoxWidth, textBoxHeight, WHITE);
-    DrawText(username.c_str(), textBoxX + 5, textBoxY + 5, 20, BLACK);
+
+    // Draw the updated username input string
+    DrawText(inputUsername.c_str(), textBoxX + 5, textBoxY + 5, 20, BLACK);
 
     // Get input from user
     int key = GetCharPressed();
     if (key > 0 && key != 127) {
-        username += (char)key;
+        inputUsername += (char)key;
     }
-    if (IsKeyPressed(KEY_BACKSPACE) && username.size() > 0) {
-        username.pop_back();
+    if (IsKeyPressed(KEY_BACKSPACE) && inputUsername.size() > 0) {
+        inputUsername.pop_back();
+    }
+
+    // Update the actual username string if needed (e.g., when the user submits)
+    if ((newGameButton.isClicked() || mainMenuButton.isClicked()) && !inputUsername.empty()) {
+        username = inputUsername;
     }
 }
 
