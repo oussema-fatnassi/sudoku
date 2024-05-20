@@ -2,6 +2,7 @@
 #include <iostream>
 #include "gui.hpp"
 #include "menu.hpp"
+#include "algorithms.hpp"
 
 int main() {
     Color darkGreen = Color{20, 160, 133, 255};
@@ -11,7 +12,6 @@ int main() {
 
     InitWindow(screenWidth, screenHeight, "Sudoku");
     SetTargetFPS(60);
-
     GUI sudokuGUI;
     Menu menu;
     sudokuGUI.menu = &menu;  // Link GUI and Menu

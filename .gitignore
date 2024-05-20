@@ -76,3 +76,8 @@ main
 
 #Mac files
 *.DS_Store
+
+#testing algorithms
+.cmake
+settings.json
+compile_commands.json

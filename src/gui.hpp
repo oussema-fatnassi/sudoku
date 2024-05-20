@@ -4,6 +4,7 @@
 #include "grid.hpp"
 #include "buttons.hpp"
 #include "menu.hpp"
+#include "stopwatch.hpp"
 
 using namespace std;
 
@@ -24,8 +25,9 @@ public:
     float getElapsedTime();
     void clearUsername();
     void stopTimer();
+    void updateTimer();
     Button numberButtons[9];
-    Button eraseButton, checkButton, solveButton, closeButton;
+    Button eraseButton, checkButton, solveButton, closeButton, generateButton;
     Button startButton, leaderboardButton, creditsButton, exitButton;
     Button backButtonLeaderboard, easyButton, mediumButton, hardButton, backButtonDifficulty, backButtonCredits;
     Button newGameButton, mainMenuButton;
@@ -33,14 +35,14 @@ public:
     bool gameEnded = false;
     float endTime;
     Menu* menu;
+    Stopwatch* stopwatch;
 
 private:
     void drawTexts();
     void drawTimer();
     void timer();
     void drawInputTextBox();
-
-
+    void generateGrid();
 
     bool timerStarted;
     float startTimer;

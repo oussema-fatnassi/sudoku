@@ -71,6 +71,17 @@ void Button::solveGridFunction(){
     }
 }
 
+// void Button::generateGridFunction(){
+//     if (isClicked() && !gridGenerated) {
+//         cout << "Generating grid..." << endl;
+//         vector<vector<int>> board(9, vector<int>(9));
+//         Algorithms algo;
+//         algo.generateSudoku(board);
+//         algo.printSudokuGrid(board);
+//         gridGenerated = true;
+//     }
+// }
+
 bool Button::isClicked() {
     if (!enabled) {
         return false;

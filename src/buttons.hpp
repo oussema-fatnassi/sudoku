@@ -14,6 +14,7 @@ class Button {
         string text;
         Grid* grid;
         bool enabled;
+        bool gridGenerated = false;
     public:
         int number ;
         Button()=default;
@@ -27,5 +28,6 @@ class Button {
         bool isClicked();
         void disable();
         void enable();
+        void generateGridFunction();
 };
 #endif  // BUTTONS_H
