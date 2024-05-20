@@ -10,7 +10,7 @@
 #include <cstring>
 using namespace std;
 
-Grid::Grid() : selectedCell(nullptr) {
+Grid::Grid() : selectedCell(nullptr) {                                              // Default constructor
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
             cells[row][col] = Cell(row, col);
@@ -18,15 +18,22 @@ Grid::Grid() : selectedCell(nullptr) {
     }
 }
 
-Cell& Grid::getCell(int row, int col) {
+Grid::~Grid() {                                                                     // Destructor
+}
+
+Cell& Grid::getCell(int row, int col) {                                             // Function to get the cell at the specified row and column
     return cells[row][col];
 }
 
-void Grid::loadGridFromFile(const char* difficulty) {
+Cell* Grid::getSelectedCell() {                                                     // Function to get the selected cell
+    return selectedCell;
+}
+
+void Grid::loadGridFromFile(const char* difficulty) {                               // Function to load the Sudoku grid from a file
     const char* easy = "easy";
     const char* medium = "medium";
     const char* hard = "hard";
-    if (strcmp(difficulty, easy) == 0) {                    // strcmp compares two strings
+    if (strcmp(difficulty, easy) == 0) {                                            // strcmp compares two strings
         filename = "assets/easy.txt";
         solutionFilename = "assets/easy_solution.txt";
     }
@@ -48,50 +55,48 @@ void Grid::loadGridFromFile(const char* difficulty) {
         std::cerr << "Error: Unable to open file " << filename << std::endl;
         return;
     }
-    allGrids.clear();
+    allGrids.clear();                                                               // Clear the vector
     vector<int> row(SIZE, 0);
     vector<vector<int>> grid(SIZE, row);
     int gridCount = 0;
-    while (file) {
+    while (file) {                                                                  // Read the grid from the file
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 file >> grid[i][j];
             }
         }
-        allGrids.push_back(grid);
+        allGrids.push_back(grid);                                                   // Add the grid to the vector
         gridCount++;
     }
     file.close();
 
-    std::ifstream solution_file(solutionFilename);
+    std::ifstream solution_file(solutionFilename);                                  // Read the solution from the file
     if (!solution_file.is_open()) {
         std::cerr << "Error: Unable to open file " << solutionFilename << std::endl;
         return;
     }
-    allSolutions.clear();
+    allSolutions.clear();                                                           // Clear the vector
     gridCount = 0;
-    while (solution_file) {
+    while (solution_file) {                                                         // Read the solution from the file
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 solution_file >> grid[i][j];
             }
         }
-        allSolutions.push_back(grid);
+        allSolutions.push_back(grid);                                               // Add the solution to the vector
         gridCount++;
     }
     solution_file.close();
 
-    srand(static_cast<unsigned int>(time(0)));
+    srand(static_cast<unsigned int>(time(0)));                                      // Seed the random number generator
 
     int randomIndex = rand() % gridCount;
-    vector<vector<int>> chosenGrid = allGrids[randomIndex];
-    solution = allSolutions[randomIndex];
-    cout << "Random index: " << randomIndex << endl;
-
+    vector<vector<int>> chosenGrid = allGrids[randomIndex];                         // Choose a random grid
+    solution = allSolutions[randomIndex];                                           // Get the solution for the chosen grid
     for (int row = 0; row < SIZE; row++) {
         for (int col = 0; col < SIZE; col++) {
             cells[row][col].value = chosenGrid[row][col];
-            if(cells[row][col].value != 0)
+            if(cells[row][col].value != 0)                                          // Check if the cell is editable
             {
                 cells[row][col].isEditable = false; 
             }
@@ -103,7 +108,7 @@ void Grid::loadGridFromFile(const char* difficulty) {
     }
 }
 
-void Grid::checkGrid(){
+void Grid::checkGrid(){                                                             // Function to check the grid
     if (gridChecked == true)  {
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
@@ -120,7 +125,7 @@ void Grid::checkGrid(){
     }
 }
 
-bool Grid::checkWinCondition() {
+bool Grid::checkWinCondition() {                                                    // Function to check the win condition
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
             Cell& cell = getCell(row, col);
@@ -132,7 +137,7 @@ bool Grid::checkWinCondition() {
     return true;
 }
 
-void Grid::drawNumber(int row, int col) {
+void Grid::drawNumber(int row, int col) {                                           // Function to draw the number in the cell
     Cell& cell = getCell(row, col);
     if (cell.value != 0) {
         std::string valueText = std::to_string(cell.value);
@@ -150,7 +155,7 @@ void Grid::drawNumber(int row, int col) {
     }
 }
 
-void Grid::drawGrid() {
+void Grid::drawGrid() {                                                             // Function to draw the Sudoku grid
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
             Cell& cell = getCell(row, col);
@@ -164,38 +169,29 @@ void Grid::drawGrid() {
             }
 
             DrawRectangle(col * 60 + 50, row * 60 + 100, 60, 60, cellColor);
-
-            // Draw the cell value if it is non-zero
-            drawNumber(row, col);
-
-            // Draw horizontal lines
-            DrawLine(col * 60 + 50, row * 60 + 100, (col + 1) * 60 + 50, row * 60 + 100, Color{0, 0, 0, 255});
+            drawNumber(row, col);                                                                                       // Draw the number in the cell                                     
+            DrawLine(col * 60 + 50, row * 60 + 100, (col + 1) * 60 + 50, row * 60 + 100, Color{0, 0, 0, 255});          // Draw horizontal lines
             DrawLine(col * 60 + 50, (row + 1) * 60 + 100, (col + 1) * 60 + 50, (row + 1) * 60 + 100, Color{0, 0, 0, 255});
-
-            // Draw vertical lines
-            DrawLine(col * 60 + 50, row * 60 + 100, col * 60 + 50, (row + 1) * 60 + 100, Color{0, 0, 0, 255});
+            DrawLine(col * 60 + 50, row * 60 + 100, col * 60 + 50, (row + 1) * 60 + 100, Color{0, 0, 0, 255});          // Draw vertical lines
             DrawLine((col + 1) * 60 + 50, row * 60 + 100, (col + 1) * 60 + 50, (row + 1) * 60 + 100, Color{0, 0, 0, 255});
         }
     }
-    // Draw thicker lines for the 3x3 subgrid borders
-    for (int i = 1; i <= 2; i++) {
-        // Horizontal thick lines
-        DrawRectangle(50, i * 180 + 98, 540, 2, Color{0, 0, 0, 255});
-        // Vertical thick lines
-        DrawRectangle(i * 180 + 48, 100, 2, 540, Color{0, 0, 0, 255});
+    for (int i = 1; i <= 2; i++) {                                                                                      // Draw thick lines
+        DrawRectangle(50, i * 180 + 98, 540, 2, Color{0, 0, 0, 255});                                                   // Horizontal thick lines
+        DrawRectangle(i * 180 + 48, 100, 2, 540, Color{0, 0, 0, 255});                                                  // Vertical thick lines
     }
 }
 
-void Grid::update() {
+void Grid::update() {                                                               // Function to update the grid
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         int mouseX = GetMouseX();
         int mouseY = GetMouseY();
-        if (mouseX > 50 && mouseX < 590 && mouseY > 100 && mouseY < 640) {
+        if (mouseX > 50 && mouseX < 590 && mouseY > 100 && mouseY < 640) {          // Check if the mouse is within the grid
             int row = (mouseY - 100) / 60;
             int col = (mouseX - 50) / 60;
             selectCell(row, col);
             Cell& cell = getCell(row, col);
-            if (cell.value != 0) {
+            if (cell.value != 0) {                                                  // Highlight cells with the same number
                 highlightSameNumber(cell.value);
             }
         }
@@ -203,7 +199,7 @@ void Grid::update() {
 
 }
 
-void Grid::selectCell(int row, int col) {
+void Grid::selectCell(int row, int col) {                                           // Function to select the cell
     if (selectedCell != nullptr) {
         selectedCell->isSelected = false;
     }
@@ -214,16 +210,14 @@ void Grid::selectCell(int row, int col) {
     highlightSubgrid();
 }
 
-void Grid::highlightCells() {
-    // Reset all cell highlights
-    for (int row = 0; row < 9; row++) {
+void Grid::highlightCells() {                                                       // Function to highlight the cells
+    for (int row = 0; row < 9; row++) {                                             // Resets the highlighted cells
         for (int col = 0; col < 9; col++) {
             cells[row][col].isHighlighted = false;
         }
     }
 
-    if (selectedCell != nullptr) {
-        // Highlight the row and column of the selected cell
+    if (selectedCell != nullptr) {                                                  // Highlight the row and column of the selected cell
         for (int i = 0; i < 9; i++) {
             cells[selectedCell->row][i].isHighlighted = true;
             cells[i][selectedCell->col].isHighlighted = true;
@@ -231,34 +225,31 @@ void Grid::highlightCells() {
     }
 }
 
-void Grid::highlightSubgrid() {
-    // Reset subgrid highlights
-    for (int row = 0; row < 9; row += 3) {
+void Grid::highlightSubgrid() {                                                     // Function to highlight the subgrid
+    for (int row = 0; row < 9; row += 3) {                                          // Resets the highlighted subgrid
         for (int col = 0; col < 9; col += 3) {
             bool inSubgrid = (selectedCell->row >= row && selectedCell->row < row + 3 &&
                               selectedCell->col >= col && selectedCell->col < col + 3);
-            if (inSubgrid) {
+            if (inSubgrid) {                                                        // Highlight the subgrid of the selected cell
                 for (int i = row; i < row + 3; i++) {
                     for (int j = col; j < col + 3; j++) {
                         cells[i][j].isHighlighted = true;
                     }
                 }
-                return; // Subgrid found, no need to check others
+                return;                                                             // Subgrid found, no need to check others
             }
         }
     }
 }
 
-void Grid::highlightSameNumber(int value) {
-    // Reset all cell highlights
-    for (int row = 0; row < 9; row++) {
+void Grid::highlightSameNumber(int value) {                                         // Function to highlight cells with the same number
+    for (int row = 0; row < 9; row++) {                                             // Resets the highlighted cells
         for (int col = 0; col < 9; col++) {
             cells[row][col].isHighlighted = false;
         }
     }
 
-    // Highlight all cells with the specified value
-    for (int row = 0; row < 9; row++) {
+    for (int row = 0; row < 9; row++) {                                             // Highlight cells with the same number
         for (int col = 0; col < 9; col++) {
             if (cells[row][col].value == value) {
                 cells[row][col].isHighlighted = true;
@@ -267,8 +258,7 @@ void Grid::highlightSameNumber(int value) {
     }
 }
 
-
-void Grid::setCellValue(int value) {
+void Grid::setCellValue(int value) {                                                // Function to set the cell value
     if (selectedCell != nullptr ) {
         selectedCell->setValue(value);
         selectedCell-> value = value;
@@ -276,7 +266,7 @@ void Grid::setCellValue(int value) {
     }
 }
 
-vector<vector<int>> Grid::getCurrentGrid() {
+vector<vector<int>> Grid::getCurrentGrid() {                                        // Function to get the current grid
     vector<vector<int>> currentGrid;
     for (int row = 0; row < SIZE; row++) {
         vector<int> currentRow;
@@ -284,14 +274,14 @@ vector<vector<int>> Grid::getCurrentGrid() {
             if (!cells[row][col].isEditable) {
                 currentRow.push_back(cells[row][col].value);
             } else {
-                currentRow.push_back(0); // Placeholder for editable cells
+                currentRow.push_back(0); 
             }
         }
         currentGrid.push_back(currentRow);
     }
     return currentGrid;
 }
-void Grid::clearGrid() {
+void Grid::clearGrid() {                                                            // Function to clear the grid
     for (int row = 0; row < SIZE; row++) {
         for (int col = 0; col < SIZE; col++) {
             cells[row][col].value = 0;

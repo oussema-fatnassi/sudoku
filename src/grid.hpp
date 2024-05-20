@@ -1,17 +1,19 @@
 #ifndef GRID_H
 #define GRID_H
+
 #include <vector>
 using namespace std;
 #include "cell.hpp"
 
-class Grid {
-    private:
+class Grid {                                                                // Class for the Sudoku grid
+    private:                                                                // Private members
         Cell cells[9][9];
         Cell* selectedCell;
     public:
-        Grid();
+        Grid();                                                             // Default constructor
+        ~Grid();                                                            // Destructor
 
-        static const int SIZE = 9;
+        static const int SIZE = 9;                                          //Public variables
         vector<vector<vector<int>>> allGrids;
         vector<vector<vector<int>>> allSolutions;
         vector<vector<int>> solution;
@@ -19,7 +21,8 @@ class Grid {
         const char* solutionFilename;
         bool gridChecked = false;
 
-        Cell& getCell(int row, int col);
+        Cell& getCell(int row, int col);                                    // Public functions
+        Cell* getSelectedCell();    
         void drawNumber(int row, int col);
         void loadGridFromFile(const char* difficulty);
         void checkGrid();
@@ -30,10 +33,8 @@ class Grid {
         void highlightCells();
         void highlightSubgrid();
         void setCellValue(int value);
-        Cell* getSelectedCell() { return selectedCell; }
         void highlightSameNumber(int value);
         void clearGrid();
-
         vector<vector<int>> getCurrentGrid();
 };
 #endif  // GRID_H

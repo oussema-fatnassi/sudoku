@@ -4,26 +4,30 @@
 #include "grid.hpp"
 #include "buttons.hpp"
 #include "menu.hpp"
+#include "stopwatch.hpp"
 
 using namespace std;
 
-class Menu;
+class Menu;                                                             // Forward declaration to avoid circular dependency
 
-class GUI {
+class GUI {                                                             // Class for the GUI
 public:
-    GUI();
+
+    GUI();                                                              // Default constructor
+    ~GUI();                                                             // Destructor
     void update();
     void drawGame();
     void drawMainMenu();
-    void drawLeaderboard();
     void drawCredits();
     void drawDifficultyMenu();
     void drawEndGame();
     void setDifficulty(const std::string& diff);
     void resetTimer();
-    float getElapsedTime();
-    void clearUsername();
-    void stopTimer();
+    void updateTimer();
+    Font font;
+
+    Texture2D logoTextureMainMenu, logoTextureCredits;
+    Image logoImage;
     Button numberButtons[9];
     Button eraseButton, checkButton, solveButton, closeButton;
     Button startButton, leaderboardButton, creditsButton, exitButton;
@@ -32,20 +36,14 @@ public:
     Grid sudokuGrid;
     bool gameEnded = false;
     float endTime;
-    Menu* menu;
+    Menu* menu;                                                             // Pointer to the menu
+    Stopwatch* stopwatch;
 
 private:
     void drawTexts();
     void drawTimer();
-    void timer();
-    void drawInputTextBox();
-
-
-
     bool timerStarted;
-    float startTimer;
-    std::string username, savedUsername, difficulty;
+    std::string username, inputUsername, difficulty;
 };
-
 
 #endif  // GUI_H
