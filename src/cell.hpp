@@ -3,10 +3,10 @@
 
 class Cell {
 public:
-    int row;
+    int row;                        // Row and column of the cell
     int col;
     
-    int value;
+    int value;                      // All the properties of the cell
     bool isHighlighted;
     bool isSelected;
     int isCorrect;
@@ -14,10 +14,11 @@ public:
     int selectedRow;
     int selectedCol;
 
-    Cell();
-    Cell(int row, int col);
-    void setValue(int value);
+    Cell();                         // Default constructor
+    Cell(int row, int col);         // Constructor with parameters
+    void setValue(int value);       // Getter and setter for value
     int getValue();
+    ~Cell();                        // Destructor
 };
 
 #endif  // CELL_H
