@@ -1,32 +1,30 @@
-// creation sudoku grid in terminal
+// Creation of a sudoku grid and its functionalities
 #include <iostream>
 #include <vector>
 #include <string>
 #include <fstream>
-#include "grid.hpp"
 #include <fstream>
+#include "grid.hpp"
 using namespace std;
 
-Grid::Grid() {
+Grid::Grid() {                                                                      // Constructor
     cells.resize(SIZE, vector<int>(SIZE, 1));
-    // loadGridFromFile("sudoku_grid.txt");
     int originalRandomIndex;
     gridDrawn = false;
-    // removeRandomValues(1);
     copyUnsolvedGrid();
 }
 
-void Grid::loadGridFromFile(const char* filename) { 
+void Grid::loadGridFromFile(const char* filename) {                                 // Method to load a grid from a file
     std::ifstream file(filename);
-    if (!file.is_open()) {
+    if (!file.is_open()) {                                                          // Check if the file is open
         std::cerr << "Error: Unable to open file " << filename << std::endl;
         return;
     }
-    allGrids.clear();
+    allGrids.clear();                                                               // Clear the allGrids vector to store the new grids 
     vector<int> row(SIZE, 0);
     vector<vector<int>> grid(SIZE, row);
     int gridCount = 0;
-    while (file) {
+    while (file) {                                                                  // Read the file and store the grids in allGrids
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 file >> grid[i][j];
@@ -37,17 +35,15 @@ void Grid::loadGridFromFile(const char* filename) {
     }
     file.close();
 
-    srand(static_cast<unsigned int>(time(0)));
+    srand(static_cast<unsigned int>(time(0)));                                      // Seed the random number generator
 
     int randomIndex = rand() % gridCount;
-    cells = allGrids[randomIndex];
-    cout << "Random index: " << randomIndex << endl;
+    cells = allGrids[randomIndex];                                                  // Choose a random grid from allGrids
     originalRandomIndex = randomIndex;
     copyUnsolvedGrid();
 }
 
-
-void Grid::printUnsolvedGrid() {
+void Grid::printUnsolvedGrid() {                                                    // Method to print the unsolved grid
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             cout << unsolvedGrid[i][j] << " ";
@@ -56,57 +52,49 @@ void Grid::printUnsolvedGrid() {
     }
 }
 
-void Grid::copyUnsolvedGrid() {
-    unsolvedGrid = cells;
+void Grid::copyUnsolvedGrid() {                                                     // Method to copy the unsolved grid
+    unsolvedGrid = cells;                                                           // Copy the cells to unsolvedGrid to keep memory of the original grid
 }
 
-void Grid::removeRandomValues(int numValuesToRemove) {
-    for (int i = 0; i < numValuesToRemove; i++) {
-        int row = rand() % SIZE;
-        int col = rand() % SIZE;
-        cells[row][col] = 0;
-    }
-}
-
-void Grid::drawGrid() {
-    for (int i = 0; i < SIZE; i++) {
+void Grid::drawGrid() {                                                             // Method to draw the grid
+    for (int i = 0; i < SIZE; i++) {                                                // Loop through the rows and columns of the grid
         for (int j = 0; j < SIZE; j++) {
             cout << cells[i][j] << " ";
-            if ((j + 1) % 3 == 0 && j < SIZE - 1) {
+            if ((j + 1) % 3 == 0 && j < SIZE - 1) {                                 // Print the vertical lines
                 cout << "| ";
             }
         }
         std::cout << endl;
-        if ((i + 1) % 3 == 0 && i < SIZE - 1) {
+        if ((i + 1) % 3 == 0 && i < SIZE - 1) {                                     // Print the horizontal lines
             cout << "---------------------" << endl;
         }
     }
 }
 
-Grid::CellPosition Grid::getCellPosition(int row, int col) {
+Grid::CellPosition Grid::getCellPosition(int row, int col) {                        // Method to get the cell position
     return {row, col};
 }
 
-void Grid::setCellValue(int row, int col, int value) {
-    if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) {
+void Grid::setCellValue(int row, int col, int value) {                              // Method to set the cell value
+    if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) {                         // Check if the row and column indices are valid
         cout << "Invalid row or column index." << endl;
         return;
     }
-    cells[row][col] = value;
+    cells[row][col] = value;                                                        // Set the cell value
 }
 
-int Grid::getCellValue(int row, int col) {
+int Grid::getCellValue(int row, int col) {                                          // Method to get the cell value
     return cells[row][col];
 }
 
-void Grid::chooseDifficulty(){
-    cout << "Choose difficulty level:" << endl;
+void Grid::chooseDifficulty(){                                                      // Method to choose the difficulty level
+    cout << "Choose difficulty level:" << endl;                                     // Display the difficulty levels to the user
     cout << "1. Easy" << endl;
     cout << "2. Medium" << endl;
     cout << "3. Hard" << endl;
     int choice;
 
-    while(true){
+    while(true){                                                                    // Get the difficulty level from the user and check if it is valid
         cout << "Enter your choice: ";
         if (!(cin >> choice)) {
             cout << "Invalid input. Please enter a number between 1 and 3." << endl;
@@ -121,7 +109,7 @@ void Grid::chooseDifficulty(){
         break;
     }
 
-    switch (choice) {
+    switch (choice) {                                                               // Load the grid based on the difficulty level
         case 1:
             loadGridFromFile("../assets/easy.txt");
             difficulty = 1;
@@ -139,13 +127,13 @@ void Grid::chooseDifficulty(){
             return;
     }
     gridDrawn = true;
-    drawGrid();
+    drawGrid();                                                                     // Draw the grid
 }
 
-void Grid::chooseCellValue() {
+void Grid::chooseCellValue() {                                                      // Method to choose the cell's value
     int row, col, value;
     while (true) {
-        cout << "Enter a row between 1 and 9: ";
+        cout << "Enter a row between 1 and 9: ";                                    // Get the row, column, and value from the user and check if they are valid
         if (!(cin >> row)) {
             cout << "Invalid input. Please enter a number between 1 and 9." << endl;
             cin.clear();
@@ -184,14 +172,14 @@ void Grid::chooseCellValue() {
         }
         break;
     }
-    setCellValue(row - 1, col - 1, value);
-    drawGrid();
+    setCellValue(row - 1, col - 1, value);                                          // Set the cell value
+    drawGrid();                                                                     // Redraw the grid
 }
 
-void Grid::menu() {
+void Grid::menu() {                                                                 // Method to display the menu
     int choice;
     while (true) {
-        if (!gridDrawn) {
+        if (!gridDrawn) {                                                           // Display the menu based on whether the grid is drawn or not
             cout << "Welcome to Sudoku!" << endl;
             cout << "1. Difficulty" << endl;
             cout << "2. Exit" << endl;
@@ -202,7 +190,7 @@ void Grid::menu() {
         }
         cout << "Enter your choice: ";
         cin >> choice;
-        switch (choice) {
+        switch (choice) {                                                           // Call the appropriate method based on the choice
             case 1:
                 if (!gridDrawn) {
                     chooseDifficulty();
@@ -228,8 +216,8 @@ void Grid::menu() {
     }
 }
 
-void Grid ::loadGridSolutionFromFile(const char* filename) {
-        std::ifstream file(filename);
+void Grid ::loadGridSolutionFromFile(const char* filename) {                        // Method to load the solution grid from a file
+        std::ifstream file(filename);                                               // Same method as in loadGridFromFile
         if (!file.is_open()) {
             std::cerr << "Error: Unable to open file " << filename << std::endl;
             return;
@@ -250,9 +238,9 @@ void Grid ::loadGridSolutionFromFile(const char* filename) {
         file.close();
     }
 
-void Grid:: checkSolution() {
+void Grid:: checkSolution() {                                                       // Method to check the solution
     string solutionFilename;
-    switch (difficulty) {
+    switch (difficulty) {                                                           // Load the solution based on the difficulty level
         case 1:
             solutionFilename = "../assets/easy_solution.txt";
             break;
@@ -266,14 +254,14 @@ void Grid:: checkSolution() {
     loadGridSolutionFromFile(solutionFilename.c_str());
 
     vector<vector<int>> solutionGrid;
-    if (originalRandomIndex >= 0 && originalRandomIndex < allSolutionGrids.size()) {
+    if (originalRandomIndex >= 0 && originalRandomIndex < allSolutionGrids.size()) { // Get the solution grid based on the original random index
         solutionGrid = allSolutionGrids[originalRandomIndex];
     } else {
         cout << "Error: Unable to load solution grid." << endl;
         return;
     }
 
-    for (int i = 0; i < SIZE; i++) {
+    for (int i = 0; i < SIZE; i++) {                                                // Compare the solution grid with the user grid
         for (int j = 0; j < SIZE; j++) {
             if (this->cells[i][j] != solutionGrid[i][j]) {
                 cout << "Incorrect solution" << endl;
@@ -281,5 +269,8 @@ void Grid:: checkSolution() {
             }
         }
     }
-    cout << "Congratulations! You solved the puzzle" << endl;
+    cout << "Congratulations! You solved the puzzle" << endl;                       // Print the message if the solution is correct
+}
+
+Grid::~Grid() {                                                                     // Destructor
 }
