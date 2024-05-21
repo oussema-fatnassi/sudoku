@@ -111,26 +111,23 @@ void Grid::loadGridFromFile(const char* difficulty) {                           
 
 void Grid::checkGrid() {
     if (gridChecked) {
-        vector<vector<int>> currentGrid(SIZE, vector<int>(SIZE, 0));  // Get the current grid state
+        vector<vector<int>> currentGrid(SIZE, vector<int>(SIZE, 0));                // Get the current grid state
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
                 currentGrid[row][col] = cells[row][col].value;
             }
         }
 
-        Algorithms solver(currentGrid);  // Initialize with the current grid
-        solver.solve();  // Solve the grid
+        Algorithms solver(currentGrid);                                             // Initialize with the current grid
+        solver.solve();                                                             // Solve the grid
 
-        // Compare the user-input values with the solved grid
-        for (int row = 0; row < SIZE; row++) {
+        for (int row = 0; row < SIZE; row++) {                                      // Compare the user-input values with the solved grid
             for (int col = 0; col < SIZE; col++) {
                 if (cells[row][col].isEditable && cells[row][col].value != 0) {
                     if (cells[row][col].value == solver.getSolution()[row][col]) {
-                        cells[row][col].isCorrect = 2;  // Correct
-                        std::cout << "Cell (" << row << ", " << col << ") with value " << cells[row][col].value << " is correct.\n";
+                        cells[row][col].isCorrect = 2;                              // Correct
                     } else {
-                        cells[row][col].isCorrect = 1;  // Incorrect
-                        std::cout << "Cell (" << row << ", " << col << ") with value " << cells[row][col].value << " is incorrect.\n";
+                        cells[row][col].isCorrect = 1;                              // Incorrect
                     }
                 }
             }
@@ -138,8 +135,6 @@ void Grid::checkGrid() {
         gridChecked = false;
     }
 }
-
-
 
 bool Grid::checkWinCondition() {                                                    // Function to check the win condition
     vector<vector<int>> currentGrid(SIZE, vector<int>(SIZE, 0));
