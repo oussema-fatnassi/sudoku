@@ -12,7 +12,7 @@
 
 using namespace std;
 
-Algorithms::Algorithms() : grid(SIZE, std::vector<int>(SIZE, 0)), solutions(0), solution(SIZE, std::vector<int>(SIZE, 0)) {}
+Algorithms::Algorithms() : solutions(0), grid(SIZE, std::vector<int>(SIZE, 0)), solution(SIZE, std::vector<int>(SIZE, 0)) {}
 
 void Algorithms:: solveSudoku(vector<vector<int>>& board) {                                     // Function to solve the Sudoku puzzle and print the solution
     if (solve(board)) {
@@ -66,7 +66,7 @@ void Algorithms::solveGrid(Grid& grid) {                                        
 
 
 // Constructor to initialize the class with a given board
-Algorithms::Algorithms(const std::vector<std::vector<int>>& board) : grid(board), solutions(0), solution(SIZE, std::vector<int>(SIZE)) {}
+Algorithms::Algorithms(const std::vector<std::vector<int>>& board) : solutions(0), grid(board),  solution(SIZE, std::vector<int>(SIZE)) {}
 
 // Method to get the current grid
 std::vector<std::vector<int>> Algorithms::getGrid() {
@@ -195,7 +195,9 @@ Algorithms::Algorithms(int maxUnknowns) {
     std::shuffle(cells.begin(), cells.end(), std::default_random_engine(seed));
 
     int unknowns = 0;
-    for (const auto& [row, col, val] : cells) {
+    for (const auto& cell : cells) {
+        int row, col, val;
+        std::tie(row, col, val) = cell;
         int savedValue = grid[row][col];
         grid[row][col] = 0;
 
