@@ -7,9 +7,9 @@ using namespace std;
 
 class Grid {                                                                // Class for the Sudoku grid
     private:                                                                // Private members
-        Cell cells[9][9];
         Cell* selectedCell;
     public:
+        Cell cells[9][9];
         Grid();                                                             // Default constructor
         ~Grid();                                                            // Destructor
 

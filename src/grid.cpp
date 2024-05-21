@@ -109,25 +109,25 @@ void Grid::loadGridFromFile(const char* difficulty) {                           
     }
 }
 
-void Grid::checkGrid(){                                                             // Function to check the grid
-    if (gridChecked == true)  {
-        // Get the current grid state
-        vector<vector<int>> currentGrid(SIZE, vector<int>(SIZE, 0));
+void Grid::checkGrid() {
+    if (gridChecked) {
+        vector<vector<int>> currentGrid(SIZE, vector<int>(SIZE, 0));  
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
                 currentGrid[row][col] = cells[row][col].value;
             }
         }
 
-        // Use the Algorithms class to check the grid
-        Algorithms solver(solution);  // Initialize with the correct solution
+        Algorithms solver(currentGrid);
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
                 if (cells[row][col].isEditable && cells[row][col].value != 0) {
                     if (!solver.isSafe(row, col, cells[row][col].value)) {
                         cells[row][col].isCorrect = 1;  // Incorrect
+                        std::cout << "Cell (" << row << ", " << col << ") with value " << cells[row][col].value << " is incorrect.\n";
                     } else {
                         cells[row][col].isCorrect = 2;  // Correct
+                        std::cout << "Cell (" << row << ", " << col << ") with value " << cells[row][col].value << " is correct.\n";
                     }
                 }
             }
@@ -136,8 +136,8 @@ void Grid::checkGrid(){                                                         
     }
 }
 
-bool Grid::checkWinCondition() { // Function to check the win condition
-    // Get the current grid state
+
+bool Grid::checkWinCondition() {                                                    // Function to check the win condition
     vector<vector<int>> currentGrid(SIZE, vector<int>(SIZE, 0));
     for (int row = 0; row < SIZE; row++) {
         for (int col = 0; col < SIZE; col++) {
@@ -145,8 +145,7 @@ bool Grid::checkWinCondition() { // Function to check the win condition
         }
     }
 
-    // Use the solver to check if the current grid matches the solved grid
-    Algorithms solver(currentGrid);
+    Algorithms solver(currentGrid);                                                 // Use the solver to check if the current grid matches the solved grid
     solver.solve();
     vector<vector<int>> solvedGrid = solver.getSolution();
 
@@ -183,12 +182,12 @@ void Grid::drawGrid() {                                                         
         for (int col = 0; col < 9; col++) {
             Cell& cell = getCell(row, col);
 
-            Color cellColor = Color{255, 255, 255, 255}; // Default white color
+            Color cellColor = Color{255, 255, 255, 255};                            // Default white color
 
             if (cell.isSelected) {
-                cellColor = Color{0, 173, 181, 255}; // for selected cell
+                cellColor = Color{0, 173, 181, 255};                                // for selected cell
             } else if (cell.isHighlighted) {
-                cellColor = Color{205, 232, 229, 255}; // for highlighted cells
+                cellColor = Color{205, 232, 229, 255};                              // for highlighted cells
             }
 
             DrawRectangle(col * 60 + 50, row * 60 + 100, 60, 60, cellColor);

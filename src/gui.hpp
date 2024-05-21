@@ -24,6 +24,8 @@ public:
     void setDifficulty(const std::string& diff);
     void resetTimer();
     void updateTimer();
+    void loadGridUsingAlgorithms(const char* difficulty);               // Function to load the Sudoku grid using the Algorithms class
+
     Font font;
 
     Texture2D logoTextureMainMenu, logoTextureCredits;

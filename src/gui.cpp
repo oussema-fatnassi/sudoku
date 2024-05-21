@@ -7,6 +7,8 @@
 #include <fstream>
 #include "stopwatch.hpp"
 #include <cmath>
+#include "algorithms.hpp"
+#include "cell.hpp"
 
 using namespace std;
 
@@ -54,6 +56,38 @@ GUI::~GUI() {                                                                   
     delete stopwatch;
     UnloadTexture(logoTextureMainMenu);
     UnloadTexture(logoTextureCredits);
+}
+
+void GUI::loadGridUsingAlgorithms(const char* difficulty) {                         // Function to load the Sudoku grid using the Algorithms class
+    
+    // Instead of loading the grid from a file, generate it using the Algorithms class
+    Algorithms algorithms;
+    int maxUnknowns = 0;
+    if (strcmp(difficulty, "EASY") == 0) {
+        maxUnknowns = 40;
+    } else if (strcmp(difficulty, "MEDIUM") == 0) {
+        maxUnknowns = 50;
+    } else if (strcmp(difficulty, "HARD") == 0) {
+        maxUnknowns = 60;
+    }
+    algorithms = Algorithms(maxUnknowns);
+    vector<vector<int>> grid = algorithms.getGrid();
+
+    // Set the grid values in the GUI
+    for (int row = 0; row < SIZE; row++) {
+        for (int col = 0; col < SIZE; col++) {
+            sudokuGrid.cells[row][col].value = grid[row][col];
+             if(sudokuGrid.cells[row][col].value != 0)                                          // Check if the cell is editable
+            {
+                sudokuGrid.cells[row][col].isEditable = false; 
+            }
+            else
+            {
+                sudokuGrid.cells[row][col].isEditable = true;
+            }
+        }
+    }
+    
 }
 
 void GUI::update() {                                                                // Function to update the GUI

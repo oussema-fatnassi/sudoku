@@ -60,19 +60,19 @@ void Menu::updateMenu() {                                   // Update menu
     }
     else if (gui->easyButton.isClicked()) {
         currentState = GAMEPLAY_MENU;
-        gui->sudokuGrid.loadGridFromFile("easy");
+        gui->loadGridUsingAlgorithms("EASY");
         gui->setDifficulty("EASY");
         gui->resetTimer();
     }
     else if (gui->mediumButton.isClicked()) {
         currentState = GAMEPLAY_MENU;
-        gui->sudokuGrid.loadGridFromFile("medium");
+        gui->loadGridUsingAlgorithms("MEDIUM");
         gui->setDifficulty("MEDIUM");
         gui->resetTimer();
     }
     else if (gui->hardButton.isClicked()) {
         currentState = GAMEPLAY_MENU;
-        gui->sudokuGrid.loadGridFromFile("hard");
+        gui->loadGridUsingAlgorithms("HARD");
         gui->setDifficulty("HARD");
         gui->resetTimer();
     }

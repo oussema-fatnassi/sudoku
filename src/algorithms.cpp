@@ -52,6 +52,7 @@ std::vector<std::vector<int>> Algorithms::getGrid() {                           
 }
 
 bool Algorithms::isSafe(int row, int col, int num) {                                            // Method to check if a number can be safely placed in a cell
+    if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) return false;
     for (int i = 0; i < SIZE; i++) {                                                            // Loop through the row and column
         if (grid[row][i] == num || grid[i][col] == num) return false;
     }
