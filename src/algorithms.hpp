@@ -5,56 +5,39 @@
 #include <vector>
 #include "grid.hpp"
 
-// Define the size of the Sudoku grid
-constexpr int SIZE = 9;
+constexpr int SIZE = 9;                                                                                         // Size of the Sudoku grid
 
 class Algorithms {
 public:
-    Algorithms(); 
+    Algorithms();                                                                                               // Default constructor                     
+    Algorithms(const std::vector<std::vector<int>>& board);                                                     // Constructor to initialize the class with a given board
+    Algorithms(int maxUnknowns);                                                                                // Constructor to generate a Sudoku puzzle with a specified number of unknowns
+    ~Algorithms();                                                                                              // Destructor
 
-    void solveGrid(Grid& grid);
-    static void solveSudoku(vector<vector<int>>& board);
-    // Constructor to initialize the class with a given board
-    Algorithms(const std::vector<std::vector<int>>& board);
+    void solveGrid(Grid& grid);                                                                                 // Function to solve the current Sudoku grid
+    static void solveSudoku(vector<vector<int>>& board);                                                        // Function to solve the Sudoku puzzle and print the solution
 
-    // Constructor to generate a Sudoku puzzle with a specified number of unknowns
-    Algorithms(int maxUnknowns);
+    std::vector<std::vector<int>> getGrid();                                                                    // Method to get the current grid
+    std::vector<std::vector<int>> getSolution();                                                                // Method to get the solution of the current grid
 
-    // Method to get the current grid
-    std::vector<std::vector<int>> getGrid();
+    void solve();                                                                                               // Function to solve the Sudoku puzzle
 
-    // Method to get the solution of the current grid
-    std::vector<std::vector<int>> getSolution();
-
-    // Method to solve the current grid
-    void solve();
-
-    // Method to check if the current grid has a unique solution
-    bool isUnique();
-    bool isSafe(int row, int col, int num);
+    bool isUnique();                                                                                            // Function to check if the current grid has a unique solution
+    bool isSafe(int row, int col, int num);                                                                     // Method to check if a number can be safely placed in a cell
 
 private:
-    // Method to check if a number can be safely placed in a cell
-    static bool solve(vector<vector<int>>& board);
-    static bool isValidNumber(vector<vector<int>>& board, int row, int col, int num);
 
-    // Backtracking method to solve the Sudoku puzzle
-    bool backtrack(int row, int col);
+    bool backtrack(int row, int col);                                                                           // Backtracking method to solve the Sudoku puzzle
 
-    // Method to count the number of solutions of the current grid
-    void countSolutions(int row, int col);
+    void countSolutions(int row, int col);                                                                      // Function to count the number of solutions of the current grid
 
-    // Method to generate a fully solved Sudoku grid
-    void generateFullGrid();
+    void generateFullGrid();                                                                                    // Function to generate a fully solved Sudoku grid
 
-    // Number of solutions found for the current grid
-    int solutions;
+    int solutions;                                                                                              // Number of solutions found for the current grid
 
-    // The current Sudoku grid
-    std::vector<std::vector<int>> grid;
+    std::vector<std::vector<int>> grid;                                                                         // The current grid
 
-    // The solution of the current grid
-    std::vector<std::vector<int>> solution;
+    std::vector<std::vector<int>> solution;                                                                     // The solution of the current grid
 };
 
 #endif // ALGORITHMS_HPP
