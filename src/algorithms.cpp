@@ -51,18 +51,32 @@ std::vector<std::vector<int>> Algorithms::getGrid() {                           
     return grid;
 }
 
-bool Algorithms::isSafe(int row, int col, int num) {                                            // Method to check if a number can be safely placed in a cell
-    if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) return false;
-    for (int i = 0; i < SIZE; i++) {                                                            // Loop through the row and column
-        if (grid[row][i] == num || grid[i][col] == num) return false;
-    }
-    int boxRow = (row / 3) * 3;
-    int boxCol = (col / 3) * 3;
-    for (int i = boxRow; i < boxRow + 3; i++) {                                                 // Loop through the 3x3 sub-grid
-        for (int j = boxCol; j < boxCol + 3; j++) {
-            if (grid[i][j] == num) return false;
+bool Algorithms::isSafe(int row, int col, int num) {
+    // Check if the number is not in the given row
+    for (int x = 0; x < SIZE; x++) {
+        if (grid[row][x] == num) {
+            return false;
         }
     }
+
+    // Check if the number is not in the given column
+    for (int x = 0; x < SIZE; x++) {
+        if (grid[x][col] == num) {
+            return false;
+        }
+    }
+
+    // Check if the number is not in the 3x3 subgrid
+    int startRow = row - row % 3;
+    int startCol = col - col % 3;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (grid[i + startRow][j + startCol] == num) {
+                return false;
+            }
+        }
+    }
+
     return true;
 }
 
