@@ -1,12 +1,13 @@
 #include "grid.hpp"
 #include "cell.hpp"
+#include "algorithms.hpp"
 #include <raylib.h>
 #include <sstream>
 #include <iostream>
 #include <vector>
 #include <string>
 #include <fstream>
-#include <intrin.h>
+// #include <intrin.h>
 #include <cstring>
 using namespace std;
 
@@ -125,11 +126,23 @@ void Grid::checkGrid(){                                                         
     }
 }
 
-bool Grid::checkWinCondition() {                                                    // Function to check the win condition
-    for (int row = 0; row < 9; row++) {
-        for (int col = 0; col < 9; col++) {
-            Cell& cell = getCell(row, col);
-            if (cell.value == 0 || cell.value != solution[row][col]) {
+bool Grid::checkWinCondition() { // Function to check the win condition
+    // Get the current grid state
+    vector<vector<int>> currentGrid(SIZE, vector<int>(SIZE, 0));
+    for (int row = 0; row < SIZE; row++) {
+        for (int col = 0; col < SIZE; col++) {
+            currentGrid[row][col] = cells[row][col].value;
+        }
+    }
+
+    // Use the solver to check if the current grid matches the solved grid
+    Algorithms solver(currentGrid);
+    solver.solve();
+    vector<vector<int>> solvedGrid = solver.getSolution();
+
+    for (int row = 0; row < SIZE; row++) {
+        for (int col = 0; col < SIZE; col++) {
+            if (currentGrid[row][col] != solvedGrid[row][col]) {
                 return false;
             }
         }
