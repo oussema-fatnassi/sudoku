@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/images/logo.png" alt="Sudoku logo"/>
+  <img src="assets/images/logo.png" alt="Sudoku logo" width="200" height="200"/>
 </p>
 
 # sudoku
