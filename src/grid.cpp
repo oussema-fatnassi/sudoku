@@ -111,13 +111,23 @@ void Grid::loadGridFromFile(const char* difficulty) {                           
 
 void Grid::checkGrid(){                                                             // Function to check the grid
     if (gridChecked == true)  {
-        for (int row = 0; row < 9; row++) {
-            for (int col = 0; col < 9; col++) {
+        // Get the current grid state
+        vector<vector<int>> currentGrid(SIZE, vector<int>(SIZE, 0));
+        for (int row = 0; row < SIZE; row++) {
+            for (int col = 0; col < SIZE; col++) {
+                currentGrid[row][col] = cells[row][col].value;
+            }
+        }
+
+        // Use the Algorithms class to check the grid
+        Algorithms solver(solution);  // Initialize with the correct solution
+        for (int row = 0; row < SIZE; row++) {
+            for (int col = 0; col < SIZE; col++) {
                 if (cells[row][col].isEditable && cells[row][col].value != 0) {
-                    if (cells[row][col].value != solution[row][col]) {
-                        cells[row][col].isCorrect = 1;
+                    if (!solver.isSafe(row, col, cells[row][col].value)) {
+                        cells[row][col].isCorrect = 1;  // Incorrect
                     } else {
-                        cells[row][col].isCorrect = 2;
+                        cells[row][col].isCorrect = 2;  // Correct
                     }
                 }
             }

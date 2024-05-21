@@ -31,10 +31,10 @@ public:
 
     // Method to check if the current grid has a unique solution
     bool isUnique();
+    bool isSafe(int row, int col, int num);
 
 private:
     // Method to check if a number can be safely placed in a cell
-    bool isSafe(int row, int col, int num);
     static bool solve(vector<vector<int>>& board);
     static bool isValidNumber(vector<vector<int>>& board, int row, int col, int num);
 
